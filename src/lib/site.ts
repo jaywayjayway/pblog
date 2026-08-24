@@ -6,8 +6,8 @@ export const siteConfig = {
   description: "关于 AI 算力、组网与存储的技术笔记",
   giscus: {
     repo: "jaywayjayway/pblog",
-    repoId: "",
-    category: "Announcements",
-    categoryId: "",
+    repoId: "R_kgDOUC3PMg",
+    category: "General",
+    categoryId: "DIC_kwDOUC3PMs4DEHbj",
   },
 };
