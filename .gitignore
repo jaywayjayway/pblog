@@ -17,6 +17,9 @@
 /.next/
 /out/
 
+# generated images (from scripts/sync-images.mjs)
+/public/images/
+
 # production
 /build
 

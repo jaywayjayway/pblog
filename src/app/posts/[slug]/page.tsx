@@ -5,21 +5,14 @@ import { getAllPosts, getPostBySlug } from "@/lib/posts";
 import { siteConfig } from "@/lib/site";
 import Giscus from "@/components/Giscus";
 
-function MarkdownImage({
-  src,
-  alt,
-}: {
-  src?: string | Blob;
-  alt?: string;
-}) {
-  if (typeof src !== "string") return null;
-  const resolved = src.startsWith("http")
+function resolveImageSrc(src: string, slug: string): string {
+  if (src.startsWith("http://") || src.startsWith("https://") || src.startsWith("data:")) {
+    return src;
+  }
+  const rel = src.startsWith("/")
     ? src
-    : `${siteConfig.basePath}${src.startsWith("/") ? src : `/${src}`}`;
-  return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img src={resolved} alt={alt ?? ""} className="my-6 rounded-lg" />
-  );
+    : `/images/${slug}/${src.replace(/^\.\//, "")}`;
+  return `${siteConfig.basePath}${rel}`;
 }
 
 interface PageProps {
@@ -59,6 +52,24 @@ export default async function PostPage({ params }: PageProps) {
       </div>
     );
   }
+
+  const MarkdownImage = ({
+    src,
+    alt,
+  }: {
+    src?: string | Blob;
+    alt?: string;
+  }) => {
+    if (typeof src !== "string") return null;
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src={resolveImageSrc(src, slug)}
+        alt={alt ?? ""}
+        className="my-6 rounded-lg"
+      />
+    );
+  };
 
   return (
     <article>

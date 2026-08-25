@@ -26,6 +26,8 @@ description: "从显存带宽、算子效率到 batch 策略，梳理大模型�
 
 推理优化优先盯带宽：量化 → KV Cache 管理 → 提高 batch 与服务化调度。下一篇文章我会展开组网对多卡推理的影响。
 
+![推理管线示意](./arch.svg)
+
 ```python
 # 一个朴素的解码循环示意
 for _ in range(max_tokens):

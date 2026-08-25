@@ -24,7 +24,7 @@ export interface PostMeta {
 }
 
 function readPostFile(slug: string): Post {
-  const fullPath = path.join(postsDirectory, `${slug}.md`);
+  const fullPath = path.join(postsDirectory, slug, "index.md");
   const fileContents = fs.readFileSync(fullPath, "utf8");
   const { data, content } = matter(fileContents);
 
@@ -43,9 +43,12 @@ export function getAllPosts(): PostMeta[] {
   if (!fs.existsSync(postsDirectory)) return [];
 
   const slugs = fs
-    .readdirSync(postsDirectory)
-    .filter((file) => file.endsWith(".md"))
-    .map((file) => file.replace(/\.md$/, ""));
+    .readdirSync(postsDirectory, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .filter((entry) =>
+      fs.existsSync(path.join(postsDirectory, entry.name, "index.md")),
+    )
+    .map((entry) => entry.name);
 
   return slugs
     .map((slug) => {

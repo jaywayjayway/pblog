@@ -20,7 +20,16 @@ npm run dev
 
 ## 写文章
 
-在 `content/posts/` 下新建 `.md` 文件，frontmatter 格式：
+每篇文章一个独立目录，文章写在 `content/posts/{slug}/index.md`，图片和文章放在**同一目录**下：
+
+```
+content/posts/
+  llm-inference-bottleneck/
+    index.md       ← 文章正文
+    arch.png       ← 该文章的图片
+```
+
+`index.md` 的 frontmatter 格式：
 
 ```markdown
 ---
@@ -39,13 +48,13 @@ description: "摘要"
 
 ## 插入图片
 
-图片放在 `public/images/{slug}/` 目录下（每篇文章独立目录），markdown 里写相对站点根的路径（**不要**带 `/pblog` 前缀，构建时会自动补上）：
+把图片放进文章目录，在 `index.md` 里用**相对路径**引用即可：
 
 ```markdown
-![架构图](/images/llm-inference-bottleneck/arch.png)
+![架构图](./arch.png)
 ```
 
-外链图片（`http(s)://` 开头）不受影响，原样渲染。
+构建时脚本会把每篇目录里的图片复制到静态资源，无需关心路径前缀。外链图片（`http(s)://` 开头）原样渲染。
 
 ## 部署到 GitHub Pages
 

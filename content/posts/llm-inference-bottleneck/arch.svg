@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="200" viewBox="0 0 640 200">
+  <rect width="640" height="200" fill="#f4f4f5"/>
+  <rect x="20" y="70" width="120" height="60" rx="8" fill="#18181b"/>
+  <text x="80" y="105" font-family="sans-serif" font-size="14" fill="#fff" text-anchor="middle">权重加载</text>
+  <rect x="180" y="70" width="120" height="60" rx="8" fill="#3f3f46"/>
+  <text x="240" y="105" font-family="sans-serif" font-size="14" fill="#fff" text-anchor="middle">KV Cache</text>
+  <rect x="340" y="70" width="120" height="60" rx="8" fill="#71717a"/>
+  <text x="400" y="105" font-family="sans-serif" font-size="14" fill="#fff" text-anchor="middle">Attention</text>
+  <rect x="500" y="70" width="120" height="60" rx="8" fill="#a1a1aa"/>
+  <text x="560" y="105" font-family="sans-serif" font-size="14" fill="#fff" text-anchor="middle">采样输出</text>
+  <line x1="140" y1="100" x2="180" y2="100" stroke="#18181b" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="300" y1="100" x2="340" y2="100" stroke="#18181b" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="460" y1="100" x2="500" y2="100" stroke="#18181b" stroke-width="2" marker-end="url(#arrow)"/>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#18181b"/>
+    </marker>
+  </defs>
+</svg>
