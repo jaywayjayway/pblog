@@ -1,0 +1,132 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" role="img" aria-labelledby="title desc">
+  <title id="title">AI 集群叶节点级联与部分 Spine 简化 Clos 架构</title>
+  <desc id="desc">两个 Pod 故障域通过汇聚 Leaf 接入部分部署的 Spine 层，接入 Leaf 承载 GPU 节点，并通过 ECMP 提供多路径。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#071525"/>
+      <stop offset="1" stop-color="#121a38"/>
+    </linearGradient>
+    <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0ea5e9"/>
+      <stop offset="1" stop-color="#22d3ee"/>
+    </linearGradient>
+    <linearGradient id="purple" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7c3aed"/>
+      <stop offset="1" stop-color="#c084fc"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <style>
+      .title{font:700 38px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#f8fafc}
+      .subtitle{font:400 18px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#94a3b8}
+      .label{font:700 21px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#f8fafc}
+      .small{font:400 15px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#a7b4c8}
+      .tiny{font:500 13px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#cbd5e1}
+      .box{fill:#0f2036;stroke:#334155;stroke-width:2}
+      .cyan-box{fill:#0c2436;stroke:#22d3ee;stroke-width:2}
+      .purple-box{fill:#1d1b3d;stroke:#a78bfa;stroke-width:2}
+      .cyan-line{fill:none;stroke:#22d3ee;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+      .purple-line{fill:none;stroke:#a78bfa;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+      .backup{fill:none;stroke:#2dd4bf;stroke-width:3;stroke-dasharray:9 9}
+    </style>
+  </defs>
+
+  <rect width="1600" height="1000" rx="32" fill="url(#bg)"/>
+  <g opacity=".12" stroke="#60a5fa">
+    <path d="M0 150H1600M0 300H1600M0 450H1600M0 600H1600M0 750H1600M0 900H1600"/>
+    <path d="M200 0V1000M400 0V1000M600 0V1000M800 0V1000M1000 0V1000M1200 0V1000M1400 0V1000"/>
+  </g>
+
+  <text x="72" y="72" class="title">万卡 AI 集群 · 叶节点级联 + 部分 Spine 简化 Clos</text>
+  <text x="72" y="108" class="subtitle">以 Pod 为故障域，通过 L3 ECMP 保留多路径；减少 Spine 数量的代价是可预测的过订阅</text>
+
+  <rect x="500" y="132" width="600" height="52" rx="26" fill="#0b2c46" stroke="#38bdf8"/>
+  <text x="800" y="165" class="label" text-anchor="middle">部分 Spine · BGP Underlay · ECMP / BFD</text>
+
+  <g>
+    <rect x="132" y="214" width="270" height="88" rx="20" class="cyan-box"/>
+    <rect x="492" y="214" width="270" height="88" rx="20" class="cyan-box"/>
+    <rect x="838" y="214" width="270" height="88" rx="20" class="purple-box"/>
+    <rect x="1198" y="214" width="270" height="88" rx="20" class="purple-box"/>
+    <text x="267" y="252" class="label" text-anchor="middle">Spine 01</text>
+    <text x="627" y="252" class="label" text-anchor="middle">Spine 02</text>
+    <text x="973" y="252" class="label" text-anchor="middle">Spine 03</text>
+    <text x="1333" y="252" class="label" text-anchor="middle">Spine 04</text>
+    <text x="267" y="280" class="small" text-anchor="middle">主用 ECMP 下一跳</text>
+    <text x="627" y="280" class="small" text-anchor="middle">主用 ECMP 下一跳</text>
+    <text x="973" y="280" class="small" text-anchor="middle">按需扩展</text>
+    <text x="1333" y="280" class="small" text-anchor="middle">按需扩展</text>
+  </g>
+
+  <path d="M267 302V342H355V395M627 302V342H548V395" class="cyan-line"/>
+  <path d="M973 302V342H1052V395M1333 302V342H1245V395" class="purple-line"/>
+  <path d="M627 314V362H1052V395M973 314V362H548V395" class="backup"/>
+  <rect x="555" y="326" width="490" height="48" rx="24" fill="#09382f" stroke="#34d399"/>
+  <text x="800" y="357" class="small" text-anchor="middle" fill="#d1fae5">ECMP 多路径：单链路或单 Spine 故障自动绕行</text>
+
+  <rect x="72" y="388" width="700" height="510" rx="34" fill="#071f34" stroke="#0ea5e9" stroke-width="2"/>
+  <rect x="828" y="388" width="700" height="510" rx="34" fill="#17152f" stroke="#8b5cf6" stroke-width="2"/>
+  <rect x="96" y="408" width="170" height="42" rx="21" fill="url(#cyan)"/>
+  <rect x="852" y="408" width="170" height="42" rx="21" fill="url(#purple)"/>
+  <text x="181" y="436" class="label" text-anchor="middle">故障域 / Pod A</text>
+  <text x="937" y="436" class="label" text-anchor="middle">故障域 / Pod B</text>
+
+  <g>
+    <rect x="210" y="478" width="220" height="78" rx="17" class="cyan-box"/>
+    <rect x="462" y="478" width="220" height="78" rx="17" class="cyan-box"/>
+    <text x="320" y="511" class="label" text-anchor="middle">汇聚 Leaf A1</text>
+    <text x="572" y="511" class="label" text-anchor="middle">汇聚 Leaf A2</text>
+    <text x="320" y="538" class="small" text-anchor="middle">聚合 / 边界路由</text>
+    <text x="572" y="538" class="small" text-anchor="middle">聚合 / 边界路由</text>
+    <path d="M430 517H462" class="backup"/>
+  </g>
+  <g>
+    <rect x="918" y="478" width="220" height="78" rx="17" class="purple-box"/>
+    <rect x="1170" y="478" width="220" height="78" rx="17" class="purple-box"/>
+    <text x="1028" y="511" class="label" text-anchor="middle">汇聚 Leaf B1</text>
+    <text x="1280" y="511" class="label" text-anchor="middle">汇聚 Leaf B2</text>
+    <text x="1028" y="538" class="small" text-anchor="middle">聚合 / 边界路由</text>
+    <text x="1280" y="538" class="small" text-anchor="middle">聚合 / 边界路由</text>
+    <path d="M1138 517H1170" class="backup"/>
+  </g>
+
+  <path d="M320 556V610H240M572 556V610H682M240 610H682" class="cyan-line"/>
+  <path d="M1028 556V610H948M1280 556V610H1390M948 610H1390" class="purple-line"/>
+  <text x="446" y="590" class="tiny" text-anchor="middle">双归属 · ECMP · BFD 快速收敛</text>
+  <text x="1174" y="590" class="tiny" text-anchor="middle">双归属 · ECMP · BFD 快速收敛</text>
+
+  <rect x="128" y="630" width="588" height="112" rx="22" class="box"/>
+  <rect x="884" y="630" width="588" height="112" rx="22" class="box"/>
+  <text x="166" y="666" class="label">接入 Leaf ×16</text>
+  <text x="922" y="666" class="label">接入 Leaf ×16</text>
+  <text x="166" y="694" class="small">逻辑 4×4 阵列 · 每台双上联到汇聚层</text>
+  <text x="922" y="694" class="small">逻辑 4×4 阵列 · 每台双上联到汇聚层</text>
+  <g fill="#22d3ee" filter="url(#glow)">
+    <circle cx="405" cy="670" r="8"/><circle cx="445" cy="670" r="8"/><circle cx="485" cy="670" r="8"/><circle cx="525" cy="670" r="8"/>
+    <circle cx="405" cy="704" r="8"/><circle cx="445" cy="704" r="8"/><circle cx="485" cy="704" r="8"/><circle cx="525" cy="704" r="8"/>
+    <circle cx="565" cy="670" r="8"/><circle cx="605" cy="670" r="8"/><circle cx="645" cy="670" r="8"/><circle cx="685" cy="670" r="8"/>
+    <circle cx="565" cy="704" r="8"/><circle cx="605" cy="704" r="8"/><circle cx="645" cy="704" r="8"/><circle cx="685" cy="704" r="8"/>
+  </g>
+  <g fill="#a78bfa" filter="url(#glow)">
+    <circle cx="1161" cy="670" r="8"/><circle cx="1201" cy="670" r="8"/><circle cx="1241" cy="670" r="8"/><circle cx="1281" cy="670" r="8"/>
+    <circle cx="1161" cy="704" r="8"/><circle cx="1201" cy="704" r="8"/><circle cx="1241" cy="704" r="8"/><circle cx="1281" cy="704" r="8"/>
+    <circle cx="1321" cy="670" r="8"/><circle cx="1361" cy="670" r="8"/><circle cx="1401" cy="670" r="8"/><circle cx="1441" cy="670" r="8"/>
+    <circle cx="1321" cy="704" r="8"/><circle cx="1361" cy="704" r="8"/><circle cx="1401" cy="704" r="8"/><circle cx="1441" cy="704" r="8"/>
+  </g>
+
+  <path d="M422 742V774M1178 742V774" class="backup"/>
+  <rect x="128" y="774" width="588" height="88" rx="22" class="box"/>
+  <rect x="884" y="774" width="588" height="88" rx="22" class="box"/>
+  <text x="422" y="810" class="label" text-anchor="middle">GPU 计算节点 ×128</text>
+  <text x="422" y="840" class="small" text-anchor="middle">8×GPU / 多轨 NIC · RoCEv2 或 InfiniBand</text>
+  <text x="1178" y="810" class="label" text-anchor="middle">GPU 计算节点 ×128</text>
+  <text x="1178" y="840" class="small" text-anchor="middle">8×GPU / 多轨 NIC · RoCEv2 或 InfiniBand</text>
+
+  <rect x="72" y="922" width="1456" height="52" rx="18" fill="#0b1b2e" stroke="#334155"/>
+  <circle cx="108" cy="948" r="7" fill="#22d3ee"/><text x="126" y="954" class="tiny">主路径</text>
+  <line x1="220" y1="948" x2="280" y2="948" class="backup"/><text x="296" y="954" class="tiny">ECMP 备选路径</text>
+  <text x="800" y="954" class="tiny" text-anchor="middle" fill="#5eead4">RoCEv2 / InfiniBand · NCCL Collective · Rail-Aware Placement</text>
+  <text x="1492" y="954" class="tiny" text-anchor="end">注意：级联会引入过订阅与更大故障域</text>
+</svg>
