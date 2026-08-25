@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="820" viewBox="0 0 1600 820" role="img" aria-labelledby="title desc">
+  <title id="title">AI 集群多 Fabric 网络分离</title>
+  <desc id="desc">GPU 计算节点分别连接计算、存储、带内管理和带外管理网络，隔离性能与故障影响。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071525"/><stop offset="1" stop-color="#121a38"/></linearGradient>
+    <linearGradient id="core" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0ea5e9"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient>
+    <style>
+      .title{font:700 40px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#f8fafc}.sub{font:400 18px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#94a3b8}.head{font:700 24px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#f8fafc}.label{font:700 18px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#f8fafc}.tiny{font:500 14px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#b6c2d3}.box{fill:#0c2035;stroke:#334155;stroke-width:2}.compute{stroke:#22d3ee}.storage{stroke:#a78bfa}.inband{stroke:#34d399}.oob{stroke:#f59e0b}.line{fill:none;stroke-width:5;stroke-linecap:round}
+    </style>
+  </defs>
+  <rect width="1600" height="820" rx="32" fill="url(#bg)"/>
+  <g opacity=".12" stroke="#60a5fa"><path d="M0 150H1600M0 300H1600M0 450H1600M0 600H1600M0 750H1600"/><path d="M200 0V820M400 0V820M600 0V820M800 0V820M1000 0V820M1200 0V820M1400 0V820"/></g>
+  <text x="72" y="72" class="title">多 Fabric 分离：让性能流量与管理流量互不干扰</text>
+  <text x="72" y="108" class="sub">计算、存储、带内管理与带外管理分别承载不同职责，限制拥塞与故障的传播范围</text>
+
+  <rect x="625" y="270" width="350" height="270" rx="36" fill="#101d36" stroke="url(#core)" stroke-width="4"/>
+  <rect x="680" y="310" width="240" height="58" rx="29" fill="url(#core)"/><text x="800" y="348" text-anchor="middle" class="head">AI 计算集群</text>
+  <g fill="#17263c" stroke="#64748b" stroke-width="2"><rect x="680" y="405" width="100" height="80" rx="15"/><rect x="805" y="405" width="100" height="80" rx="15"/></g>
+  <text x="730" y="440" text-anchor="middle" class="label">GPU</text><text x="730" y="466" text-anchor="middle" class="tiny">Node</text><text x="855" y="440" text-anchor="middle" class="label">GPU</text><text x="855" y="466" text-anchor="middle" class="tiny">Node</text>
+  <text x="800" y="518" text-anchor="middle" class="tiny">多 NIC · BMC · OS / 容器平台</text>
+
+  <rect x="90" y="180" width="385" height="175" rx="26" class="box compute"/><circle cx="140" cy="228" r="12" fill="#22d3ee"/><text x="170" y="236" class="head">计算 Fabric</text>
+  <text x="140" y="282" class="label">RoCEv2 / InfiniBand</text><text x="140" y="316" class="tiny">GPU Collective · NCCL · 低时延 RDMA</text>
+  <path d="M475 270H560Q600 270 625 320" class="line compute"/>
+
+  <rect x="1125" y="180" width="385" height="175" rx="26" class="box storage"/><circle cx="1175" cy="228" r="12" fill="#a78bfa"/><text x="1205" y="236" class="head">存储 Fabric</text>
+  <text x="1175" y="282" class="label">数据集 / Checkpoint</text><text x="1175" y="316" class="tiny">分布式文件系统 · 大吞吐顺序读写</text>
+  <path d="M1125 270H1040Q1000 270 975 320" class="line storage"/>
+
+  <rect x="90" y="500" width="385" height="175" rx="26" class="box inband"/><circle cx="140" cy="548" r="12" fill="#34d399"/><text x="170" y="556" class="head">带内管理网</text>
+  <text x="140" y="602" class="label">OS / K8s / 业务控制面</text><text x="140" y="636" class="tiny">部署、监控、日志与日常运维流量</text>
+  <path d="M475 588H560Q600 588 625 490" class="line inband"/>
+
+  <rect x="1125" y="500" width="385" height="175" rx="26" class="box oob"/><circle cx="1175" cy="548" r="12" fill="#f59e0b"/><text x="1205" y="556" class="head">带外管理网</text>
+  <text x="1175" y="602" class="label">BMC / 交换机管理</text><text x="1175" y="636" class="tiny">独立救援通道 · 不依赖生产网络</text>
+  <path d="M1125 588H1040Q1000 588 975 490" class="line oob"/>
+
+  <rect x="240" y="735" width="1120" height="50" rx="20" fill="#0b1b2e" stroke="#334155"/>
+  <text x="800" y="767" text-anchor="middle" class="tiny">无法物理分离时，至少使用 VRF / VLAN、QoS 与独立故障策略进行逻辑隔离</text>
+</svg>

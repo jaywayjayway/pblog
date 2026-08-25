@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">AI 集群 Clos 架构演进</title>
+  <desc id="desc">从双 Leaf 小规模网络，扩展到标准两层 Clos，再到带有 Super-Spine 的三层 Clos。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071525"/><stop offset="1" stop-color="#121a38"/></linearGradient>
+    <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0ea5e9"/><stop offset="1" stop-color="#22d3ee"/></linearGradient>
+    <linearGradient id="purple" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#7c3aed"/><stop offset="1" stop-color="#c084fc"/></linearGradient>
+    <style>
+      .title{font:700 40px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#f8fafc}.sub{font:400 18px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#94a3b8}
+      .head{font:700 25px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#f8fafc}.label{font:700 17px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#f8fafc}.tiny{font:500 14px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#b6c2d3}
+      .card{fill:#0a1c31;stroke:#334155;stroke-width:2}.node{fill:#10243a;stroke:#38bdf8;stroke-width:2}.violet{fill:#201b41;stroke:#a78bfa;stroke-width:2}.line{stroke:#22d3ee;stroke-width:3;fill:none}.pline{stroke:#a78bfa;stroke-width:3;fill:none}.muted{stroke:#64748b;stroke-width:2;fill:none}
+    </style>
+  </defs>
+  <rect width="1600" height="900" rx="32" fill="url(#bg)"/>
+  <g opacity=".12" stroke="#60a5fa"><path d="M0 150H1600M0 300H1600M0 450H1600M0 600H1600M0 750H1600"/><path d="M200 0V900M400 0V900M600 0V900M800 0V900M1000 0V900M1200 0V900M1400 0V900"/></g>
+  <text x="72" y="72" class="title">AI 集群 Clos 架构如何随规模演进</text>
+  <text x="72" y="108" class="sub">交换层级增加，换来更大的端口规模；同时也增加跳数、布线和运维复杂度</text>
+
+  <rect x="70" y="150" width="445" height="660" rx="30" class="card"/>
+  <rect x="578" y="150" width="445" height="660" rx="30" class="card"/>
+  <rect x="1085" y="150" width="445" height="660" rx="30" class="card"/>
+  <rect x="94" y="174" width="132" height="38" rx="19" fill="url(#cyan)"/><text x="160" y="200" text-anchor="middle" class="label">小规模</text>
+  <rect x="602" y="174" width="132" height="38" rx="19" fill="url(#cyan)"/><text x="668" y="200" text-anchor="middle" class="label">中大规模</text>
+  <rect x="1109" y="174" width="132" height="38" rx="19" fill="url(#purple)"/><text x="1175" y="200" text-anchor="middle" class="label">超大规模</text>
+  <text x="292" y="258" text-anchor="middle" class="head">双 Leaf / Collapsed</text>
+  <text x="800" y="258" text-anchor="middle" class="head">标准两层 Clos</text>
+  <text x="1307" y="258" text-anchor="middle" class="head">三层 Clos</text>
+
+  <rect x="130" y="330" width="150" height="62" rx="15" class="node"/><rect x="305" y="330" width="150" height="62" rx="15" class="node"/>
+  <text x="205" y="368" text-anchor="middle" class="label">Leaf 01</text><text x="380" y="368" text-anchor="middle" class="label">Leaf 02</text>
+  <path d="M205 392V480M380 392V480M205 430H380" class="line"/>
+  <rect x="125" y="480" width="335" height="86" rx="18" fill="#111f32" stroke="#475569" stroke-width="2"/>
+  <text x="292" y="517" text-anchor="middle" class="label">GPU / 推理节点</text><text x="292" y="544" text-anchor="middle" class="tiny">接入与汇聚合一 · 跳数最少</text>
+
+  <g><rect x="620" y="305" width="100" height="55" rx="13" class="node"/><rect x="750" y="305" width="100" height="55" rx="13" class="node"/><rect x="880" y="305" width="100" height="55" rx="13" class="node"/>
+  <text x="670" y="339" text-anchor="middle" class="label">S1</text><text x="800" y="339" text-anchor="middle" class="label">S2</text><text x="930" y="339" text-anchor="middle" class="label">S3</text></g>
+  <g><rect x="620" y="465" width="100" height="55" rx="13" class="node"/><rect x="750" y="465" width="100" height="55" rx="13" class="node"/><rect x="880" y="465" width="100" height="55" rx="13" class="node"/>
+  <text x="670" y="499" text-anchor="middle" class="label">L1</text><text x="800" y="499" text-anchor="middle" class="label">L2</text><text x="930" y="499" text-anchor="middle" class="label">L3</text></g>
+  <path d="M670 360L670 465M670 360L800 465M670 360L930 465M800 360L670 465M800 360L800 465M800 360L930 465M930 360L670 465M930 360L800 465M930 360L930 465" class="line" opacity=".78"/>
+  <rect x="620" y="595" width="360" height="72" rx="18" fill="#111f32" stroke="#475569" stroke-width="2"/><text x="800" y="625" text-anchor="middle" class="label">GPU 计算节点</text><text x="800" y="650" text-anchor="middle" class="tiny">每台 Leaf 连接全部 Spine</text>
+  <path d="M670 520V595M800 520V595M930 520V595" class="muted"/>
+
+  <rect x="1170" y="288" width="120" height="54" rx="13" class="violet"/><rect x="1325" y="288" width="120" height="54" rx="13" class="violet"/>
+  <text x="1230" y="322" text-anchor="middle" class="label">SS1</text><text x="1385" y="322" text-anchor="middle" class="label">SS2</text>
+  <g><rect x="1130" y="410" width="96" height="52" rx="13" class="node"/><rect x="1260" y="410" width="96" height="52" rx="13" class="node"/><rect x="1390" y="410" width="96" height="52" rx="13" class="node"/>
+  <text x="1178" y="443" text-anchor="middle" class="label">S1</text><text x="1308" y="443" text-anchor="middle" class="label">S2</text><text x="1438" y="443" text-anchor="middle" class="label">S3</text></g>
+  <path d="M1230 342L1178 410M1230 342L1308 410M1230 342L1438 410M1385 342L1178 410M1385 342L1308 410M1385 342L1438 410" class="pline" opacity=".85"/>
+  <g><rect x="1130" y="535" width="96" height="52" rx="13" class="node"/><rect x="1260" y="535" width="96" height="52" rx="13" class="node"/><rect x="1390" y="535" width="96" height="52" rx="13" class="node"/>
+  <text x="1178" y="568" text-anchor="middle" class="label">L1</text><text x="1308" y="568" text-anchor="middle" class="label">L2</text><text x="1438" y="568" text-anchor="middle" class="label">L3</text></g>
+  <path d="M1178 462L1178 535M1178 462L1308 535M1178 462L1438 535M1308 462L1178 535M1308 462L1308 535M1308 462L1438 535M1438 462L1178 535M1438 462L1308 535M1438 462L1438 535" class="line" opacity=".7"/>
+  <rect x="1130" y="650" width="356" height="66" rx="18" fill="#111f32" stroke="#475569" stroke-width="2"/><text x="1308" y="678" text-anchor="middle" class="label">多个 Leaf-Spine Pod</text><text x="1308" y="702" text-anchor="middle" class="tiny">Super-Spine 承载跨 Pod 扩展</text>
+  <path d="M1178 587V650M1308 587V650M1438 587V650" class="muted"/>
+
+  <text x="292" y="750" text-anchor="middle" class="tiny">低成本 · 端口规模有限</text>
+  <text x="800" y="750" text-anchor="middle" class="tiny">路径对称 · 带宽可预测</text>
+  <text x="1307" y="750" text-anchor="middle" class="tiny">容量更大 · 控制面更复杂</text>
+  <rect x="70" y="838" width="1460" height="38" rx="19" fill="#0b2c46" stroke="#38bdf8"/><text x="800" y="863" text-anchor="middle" class="tiny">规模阈值取决于交换机端口密度、端口速率、每节点 NIC 数量与目标收敛比</text>
+</svg>

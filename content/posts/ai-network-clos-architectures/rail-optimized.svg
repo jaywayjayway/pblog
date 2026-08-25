@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Rail-Optimized 多平面 AI 网络</title>
+  <desc id="desc">不同服务器中相同位置的 GPU 和 NIC 接入同一 Rail 网络平面，形成对称的通信路径。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071525"/><stop offset="1" stop-color="#121a38"/></linearGradient>
+    <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0ea5e9"/><stop offset="1" stop-color="#22d3ee"/></linearGradient>
+    <linearGradient id="purple" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#7c3aed"/><stop offset="1" stop-color="#c084fc"/></linearGradient>
+    <style>
+      .title{font:700 40px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#f8fafc}.sub{font:400 18px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#94a3b8}.head{font:700 24px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#f8fafc}.label{font:700 17px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#f8fafc}.tiny{font:500 14px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#b6c2d3}.server{fill:#0d2035;stroke:#475569;stroke-width:2}.cnode{fill:#0c2a3d;stroke:#22d3ee;stroke-width:2}.pnode{fill:#211b43;stroke:#a78bfa;stroke-width:2}.cline{stroke:#22d3ee;stroke-width:4;fill:none}.pline{stroke:#a78bfa;stroke-width:4;fill:none}
+    </style>
+  </defs>
+  <rect width="1600" height="900" rx="32" fill="url(#bg)"/>
+  <g opacity=".12" stroke="#60a5fa"><path d="M0 150H1600M0 300H1600M0 450H1600M0 600H1600M0 750H1600"/><path d="M200 0V900M400 0V900M600 0V900M800 0V900M1000 0V900M1200 0V900M1400 0V900"/></g>
+  <text x="72" y="72" class="title">Rail-Optimized：让网络拓扑贴合 GPU / NIC 拓扑</text>
+  <text x="72" y="108" class="sub">不同服务器中相同位置的 GPU 接入同一网络平面，获得对称路径并隔离单 Rail 故障</text>
+  <rect x="70" y="150" width="670" height="650" rx="30" fill="#091c30" stroke="#334155" stroke-width="2"/>
+  <text x="405" y="196" text-anchor="middle" class="head">GPU 服务器</text>
+
+  <g>
+    <rect x="110" y="230" width="590" height="140" rx="22" class="server"/><text x="145" y="270" class="head">Node 01</text>
+    <rect x="310" y="250" width="155" height="86" rx="17" class="cnode"/><rect x="505" y="250" width="155" height="86" rx="17" class="pnode"/>
+    <text x="388" y="285" text-anchor="middle" class="label">GPU 0 / NIC 0</text><text x="388" y="314" text-anchor="middle" class="tiny">Rail 0</text>
+    <text x="582" y="285" text-anchor="middle" class="label">GPU 1 / NIC 1</text><text x="582" y="314" text-anchor="middle" class="tiny">Rail 1</text>
+  </g>
+  <g>
+    <rect x="110" y="405" width="590" height="140" rx="22" class="server"/><text x="145" y="445" class="head">Node 02</text>
+    <rect x="310" y="425" width="155" height="86" rx="17" class="cnode"/><rect x="505" y="425" width="155" height="86" rx="17" class="pnode"/>
+    <text x="388" y="460" text-anchor="middle" class="label">GPU 0 / NIC 0</text><text x="388" y="489" text-anchor="middle" class="tiny">Rail 0</text>
+    <text x="582" y="460" text-anchor="middle" class="label">GPU 1 / NIC 1</text><text x="582" y="489" text-anchor="middle" class="tiny">Rail 1</text>
+  </g>
+  <g>
+    <rect x="110" y="580" width="590" height="140" rx="22" class="server"/><text x="145" y="620" class="head">Node 03</text>
+    <rect x="310" y="600" width="155" height="86" rx="17" class="cnode"/><rect x="505" y="600" width="155" height="86" rx="17" class="pnode"/>
+    <text x="388" y="635" text-anchor="middle" class="label">GPU 0 / NIC 0</text><text x="388" y="664" text-anchor="middle" class="tiny">Rail 0</text>
+    <text x="582" y="635" text-anchor="middle" class="label">GPU 1 / NIC 1</text><text x="582" y="664" text-anchor="middle" class="tiny">Rail 1</text>
+  </g>
+
+  <path d="M465 293H830M465 468H830M465 643H830" class="cline"/>
+  <path d="M660 293H925M660 468H925M660 643H925" class="pline"/>
+  <rect x="830" y="172" width="300" height="586" rx="28" fill="#082637" stroke="#22d3ee" stroke-width="2"/>
+  <rect x="925" y="196" width="180" height="42" rx="21" fill="url(#cyan)"/><text x="1015" y="224" text-anchor="middle" class="label">Rail 0 Fabric</text>
+  <rect x="875" y="285" width="210" height="70" rx="16" class="cnode"/><rect x="875" y="420" width="210" height="70" rx="16" class="cnode"/><rect x="875" y="555" width="210" height="70" rx="16" class="cnode"/>
+  <text x="980" y="326" text-anchor="middle" class="label">Leaf 0-A</text><text x="980" y="461" text-anchor="middle" class="label">Spine 0</text><text x="980" y="596" text-anchor="middle" class="label">Leaf 0-B</text>
+  <path d="M980 355V420M980 490V555" class="cline"/>
+
+  <rect x="1180" y="172" width="350" height="586" rx="28" fill="#191631" stroke="#a78bfa" stroke-width="2"/>
+  <rect x="1265" y="196" width="180" height="42" rx="21" fill="url(#purple)"/><text x="1355" y="224" text-anchor="middle" class="label">Rail 1 Fabric</text>
+  <rect x="1250" y="285" width="210" height="70" rx="16" class="pnode"/><rect x="1250" y="420" width="210" height="70" rx="16" class="pnode"/><rect x="1250" y="555" width="210" height="70" rx="16" class="pnode"/>
+  <text x="1355" y="326" text-anchor="middle" class="label">Leaf 1-A</text><text x="1355" y="461" text-anchor="middle" class="label">Spine 1</text><text x="1355" y="596" text-anchor="middle" class="label">Leaf 1-B</text>
+  <path d="M1355 355V420M1355 490V555" class="pline"/>
+  <path d="M925 293H875M925 468H875M925 643H875" class="cline"/>
+  <path d="M1105 293H1250M1105 468H1250M1105 643H1250" class="pline"/>
+  <rect x="70" y="828" width="1460" height="48" rx="20" fill="#0b1b2e" stroke="#334155"/>
+  <circle cx="110" cy="852" r="8" fill="#22d3ee"/><text x="130" y="858" class="tiny">GPU 0 通道</text><circle cx="280" cy="852" r="8" fill="#a78bfa"/><text x="300" y="858" class="tiny">GPU 1 通道</text>
+  <text x="1490" y="858" text-anchor="end" class="tiny">关键要求：各 Rail 的速率、MTU、拥塞控制与链路状态保持一致</text>
+</svg>

@@ -51,6 +51,8 @@ Clos 的价值不只是“有很多链路”，而是：
 
 [NVIDIA NVL72 AI Factory 参考架构](https://docs.nvidia.com/enterprise-reference-architectures/nvl72-ai-factory/latest/network-logical-architecture.html)将 Super-Spine 描述为超大规模部署的扩展方式，并以约 1024 节点以上作为其设计示例。这个数字不是通用分界线，实际阈值仍取决于交换机 radix、端口速率和每节点 NIC 数量。
 
+![AI 集群从双 Leaf 到三层 Clos 的架构演进](./clos-evolution.svg)
+
 ### 2.4 Rail-Optimized 多平面 Clos
 
 多 GPU 服务器通常有多张高速 NIC。Rail-Optimized 设计会把不同服务器上相同位置的 GPU/NIC 接入同一个网络平面，例如 GPU0 走 Rail 0、GPU1 走 Rail 1。这样可让 NCCL 更容易选择对称路径，降低局部热点，并把故障限制在单个 Rail。
@@ -58,6 +60,8 @@ Clos 的价值不只是“有很多链路”，而是：
 [NVIDIA HGX AI Factory 参考架构](https://docs.nvidia.com/enterprise-reference-architectures/hgx-ai-factory/latest/network-logical-architecture.html)采用无阻塞 Leaf-Spine 和 Rail-Optimized RDMA 网络；[DGX SuperPOD H100 参考架构](https://docs.nvidia.com/dgx-superpod/reference-architecture-scalable-infrastructure-h100/latest/network-fabrics.html)也按 Rail 组织计算网络，并将计算、存储、带内管理与带外管理拆分成独立 Fabric。
 
 多平面的代价是交换机和布线数量增加，运维必须保证各 Rail 的配置、MTU、拥塞控制和链路状态一致，否则应用看到的会是“总带宽很高，但最慢 Rail 拖住全局”。
+
+![Rail-Optimized 多平面 AI 网络](./rail-optimized.svg)
 
 ### 2.5 叶节点级联 + 部分 Spine
 
@@ -108,6 +112,8 @@ RoCEv2 还需要成套验证：
 - **带外管理网**：承载 BMC、交换机管理和故障救援。
 
 物理上无法完全分开时，也至少要通过 VRF/VLAN、QoS 和独立故障策略隔离。NVIDIA 的 [DGX SuperPOD 网络设计](https://docs.nvidia.com/dgx-superpod/reference-architecture-scalable-infrastructure-h100/latest/network-fabrics.html)采用的正是多 Fabric 思路。
+
+![AI 集群计算、存储、带内与带外网络分离](./multi-fabric.svg)
 
 ## 5. 如何选择
 
