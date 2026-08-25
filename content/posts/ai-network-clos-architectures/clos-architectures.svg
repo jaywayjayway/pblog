@@ -40,10 +40,10 @@
   </g>
 
   <text x="72" y="72" class="title">万卡 AI 集群 · 叶节点级联 + 部分 Spine 简化 Clos</text>
-  <text x="72" y="108" class="subtitle">以 Pod 为故障域，通过 L3 ECMP 保留多路径；减少 Spine 数量的代价是可预测的过订阅</text>
+  <text x="72" y="108" class="subtitle">以 Pod 为故障域，通过 L3 ECMP 保留多路径；减少 Spine 数量的代价是更高的收敛比</text>
 
   <rect x="500" y="132" width="600" height="52" rx="26" fill="#0b2c46" stroke="#38bdf8"/>
-  <text x="800" y="165" class="label" text-anchor="middle">部分 Spine · BGP Underlay · ECMP / BFD</text>
+  <text x="800" y="165" class="label" text-anchor="middle">部分 Spine · RoCEv2 示例：BGP / ECMP / BFD</text>
 
   <g>
     <rect x="132" y="214" width="270" height="88" rx="20" class="cyan-box"/>
@@ -54,17 +54,17 @@
     <text x="627" y="252" class="label" text-anchor="middle">Spine 02</text>
     <text x="973" y="252" class="label" text-anchor="middle">Spine 03</text>
     <text x="1333" y="252" class="label" text-anchor="middle">Spine 04</text>
-    <text x="267" y="280" class="small" text-anchor="middle">主用 ECMP 下一跳</text>
-    <text x="627" y="280" class="small" text-anchor="middle">主用 ECMP 下一跳</text>
-    <text x="973" y="280" class="small" text-anchor="middle">按需扩展</text>
-    <text x="1333" y="280" class="small" text-anchor="middle">按需扩展</text>
+    <text x="267" y="280" class="small" text-anchor="middle">Pod A 域内容量</text>
+    <text x="627" y="280" class="small" text-anchor="middle">跨 Pod ECMP</text>
+    <text x="973" y="280" class="small" text-anchor="middle">跨 Pod ECMP</text>
+    <text x="1333" y="280" class="small" text-anchor="middle">Pod B 域内容量</text>
   </g>
 
   <path d="M267 302V342H355V395M627 302V342H548V395" class="cyan-line"/>
   <path d="M973 302V342H1052V395M1333 302V342H1245V395" class="purple-line"/>
   <path d="M627 314V362H1052V395M973 314V362H548V395" class="backup"/>
   <rect x="555" y="326" width="490" height="48" rx="24" fill="#09382f" stroke="#34d399"/>
-  <text x="800" y="357" class="small" text-anchor="middle" fill="#d1fae5">ECMP 多路径：单链路或单 Spine 故障自动绕行</text>
+  <text x="800" y="357" class="small" text-anchor="middle" fill="#d1fae5">ECMP 等价下一跳共同承载流量；故障后撤销受影响的下一跳</text>
 
   <rect x="72" y="388" width="700" height="510" rx="34" fill="#071f34" stroke="#0ea5e9" stroke-width="2"/>
   <rect x="828" y="388" width="700" height="510" rx="34" fill="#17152f" stroke="#8b5cf6" stroke-width="2"/>
@@ -94,8 +94,8 @@
 
   <path d="M320 556V610H240M572 556V610H682M240 610H682" class="cyan-line"/>
   <path d="M1028 556V610H948M1280 556V610H1390M948 610H1390" class="purple-line"/>
-  <text x="446" y="590" class="tiny" text-anchor="middle">双归属 · ECMP · BFD 快速收敛</text>
-  <text x="1174" y="590" class="tiny" text-anchor="middle">双归属 · ECMP · BFD 快速收敛</text>
+  <text x="446" y="590" class="tiny" text-anchor="middle">以太网：BFD 检测 · BGP / ECMP 收敛</text>
+  <text x="1174" y="590" class="tiny" text-anchor="middle">以太网：BFD 检测 · BGP / ECMP 收敛</text>
 
   <rect x="128" y="630" width="588" height="112" rx="22" class="box"/>
   <rect x="884" y="630" width="588" height="112" rx="22" class="box"/>
@@ -125,8 +125,8 @@
   <text x="1178" y="840" class="small" text-anchor="middle">8×GPU / 多轨 NIC · RoCEv2 或 InfiniBand</text>
 
   <rect x="72" y="922" width="1456" height="52" rx="18" fill="#0b1b2e" stroke="#334155"/>
-  <circle cx="108" cy="948" r="7" fill="#22d3ee"/><text x="126" y="954" class="tiny">主路径</text>
-  <line x1="220" y1="948" x2="280" y2="948" class="backup"/><text x="296" y="954" class="tiny">ECMP 备选路径</text>
-  <text x="800" y="954" class="tiny" text-anchor="middle" fill="#5eead4">RoCEv2 / InfiniBand · NCCL Collective · Rail-Aware Placement</text>
-  <text x="1492" y="954" class="tiny" text-anchor="end">注意：级联会引入过订阅与更大故障域</text>
+  <circle cx="108" cy="948" r="7" fill="#22d3ee"/><text x="126" y="954" class="tiny">域内上联</text>
+  <line x1="220" y1="948" x2="280" y2="948" class="backup"/><text x="296" y="954" class="tiny">跨 Pod ECMP 路径</text>
+  <text x="800" y="954" class="tiny" text-anchor="middle" fill="#5eead4">RoCEv2 与 InfiniBand 可复用物理拓扑，但控制面与拥塞控制不同</text>
+  <text x="1492" y="954" class="tiny" text-anchor="end">注意：级联会提高收敛比并扩大故障域</text>
 </svg>
