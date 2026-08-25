@@ -4,10 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "node scripts/sync-images.mjs && next build",
+    "build": "node scripts/sync-images.mjs && next build --webpack",
     "sync-images": "node scripts/sync-images.mjs",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@tailwindcss/typography": "^0.5.20",

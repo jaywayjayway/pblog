@@ -1,8 +1,10 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { getAllPosts, getPostBySlug } from "@/lib/posts";
-import { siteConfig } from "@/lib/site";
+import { absoluteUrl, siteConfig } from "@/lib/site";
 import Giscus from "@/components/Giscus";
 
 function resolveImageSrc(src: string, slug: string): string {
@@ -23,10 +25,30 @@ export function generateStaticParams() {
   return getAllPosts().map((post) => ({ slug: post.slug }));
 }
 
-export async function generateMetadata({ params }: PageProps) {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const post = getPostBySlug(slug);
-  return { title: post ? post.title : "未找到" };
+  if (!post) notFound();
+
+  const url = absoluteUrl(`/posts/${post.slug}`);
+  return {
+    title: post.title,
+    description: post.description,
+    keywords: post.tags,
+    authors: [{ name: siteConfig.author }],
+    alternates: { canonical: url },
+    openGraph: {
+      type: "article",
+      locale: "zh_CN",
+      siteName: siteConfig.title,
+      title: post.title,
+      description: post.description,
+      url,
+      publishedTime: post.date,
+      authors: [siteConfig.author],
+      tags: post.tags,
+    },
+  };
 }
 
 function formatDate(iso: string) {
@@ -42,16 +64,7 @@ export default async function PostPage({ params }: PageProps) {
   const { slug } = await params;
   const post = getPostBySlug(slug);
 
-  if (!post) {
-    return (
-      <div className="py-16 text-center text-zinc-500">
-        <p>文章不存在。</p>
-        <Link href="/" className="mt-4 inline-block text-sm underline">
-          返回首页
-        </Link>
-      </div>
-    );
-  }
+  if (!post) notFound();
 
   const MarkdownImage = ({
     src,
@@ -76,7 +89,7 @@ export default async function PostPage({ params }: PageProps) {
       <header className="mb-8 border-b border-zinc-200 pb-6">
         <h1 className="text-3xl font-semibold tracking-tight">{post.title}</h1>
         <div className="mt-3 flex flex-wrap items-center gap-3 text-sm text-zinc-400">
-          <time>{formatDate(post.date)}</time>
+          <time dateTime={post.date}>{formatDate(post.date)}</time>
           <Link
             href={`/categories/${encodeURIComponent(post.category)}`}
             className="rounded-full bg-zinc-900 px-2.5 py-0.5 text-xs text-white hover:bg-zinc-700"

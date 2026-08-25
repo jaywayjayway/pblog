@@ -4,6 +4,51 @@ import matter from "gray-matter";
 
 const postsDirectory = path.join(process.cwd(), "content", "posts");
 
+function postError(slug: string, message: string): Error {
+  return new Error(`文章 ${slug}/index.md 的 Frontmatter 无效：${message}`);
+}
+
+function requiredString(
+  slug: string,
+  value: unknown,
+  field: string,
+): string {
+  if (typeof value !== "string" || value.trim() === "") {
+    throw postError(slug, `${field} 必须是非空字符串`);
+  }
+  return value.trim();
+}
+
+function parseDate(slug: string, value: unknown): string {
+  if (typeof value !== "string" && !(value instanceof Date)) {
+    throw postError(slug, "date 必须是有效日期");
+  }
+
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) {
+    throw postError(slug, `date 不是有效日期：${String(value)}`);
+  }
+  return parsed.toISOString();
+}
+
+function parseTags(slug: string, value: unknown): string[] {
+  if (!Array.isArray(value) || value.some((tag) => typeof tag !== "string" || !tag.trim())) {
+    throw postError(slug, "tags 必须是由非空字符串组成的数组");
+  }
+  return Array.from(new Set(value.map((tag) => tag.trim())));
+}
+
+function isSafeSlug(slug: string): boolean {
+  return (
+    slug.length > 0 &&
+    slug === path.basename(slug) &&
+    !slug.includes("/") &&
+    !slug.includes("\\") &&
+    slug !== "." &&
+    slug !== ".."
+  );
+}
+
 export interface Post {
   slug: string;
   title: string;
@@ -24,17 +69,21 @@ export interface PostMeta {
 }
 
 function readPostFile(slug: string): Post {
+  if (!isSafeSlug(slug)) {
+    throw new Error(`非法文章 slug：${slug}`);
+  }
+
   const fullPath = path.join(postsDirectory, slug, "index.md");
   const fileContents = fs.readFileSync(fullPath, "utf8");
   const { data, content } = matter(fileContents);
 
   return {
     slug,
-    title: data.title ?? slug,
-    date: data.date ? new Date(data.date).toISOString() : "",
-    category: data.category ?? "未分类",
-    tags: Array.isArray(data.tags) ? data.tags : [],
-    description: data.description ?? "",
+    title: requiredString(slug, data.title, "title"),
+    date: parseDate(slug, data.date),
+    category: requiredString(slug, data.category, "category"),
+    tags: parseTags(slug, data.tags),
+    description: requiredString(slug, data.description, "description"),
     content,
   };
 }
@@ -66,10 +115,13 @@ export function getAllPosts(): PostMeta[] {
 }
 
 export function getPostBySlug(slug: string): Post | null {
+  if (!isSafeSlug(slug)) return null;
+
   try {
     return readPostFile(slug);
-  } catch {
-    return null;
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === "ENOENT") return null;
+    throw error;
   }
 }
 
