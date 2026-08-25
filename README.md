@@ -26,12 +26,26 @@ npm run dev
 ---
 title: "标题"
 date: "2026-08-24"
-tags: ["算力", "GPU"]
+category: "算力"
+tags: ["GPU", "LLM"]
 description: "摘要"
 ---
 
 正文内容...
 ```
+
+- `category`：主分类（一篇一个），归档到 `/categories`
+- `tags`：标签（一篇多个），归档到 `/tags`
+
+## 插入图片
+
+图片放在 `public/images/{slug}/` 目录下（每篇文章独立目录），markdown 里写相对站点根的路径（**不要**带 `/pblog` 前缀，构建时会自动补上）：
+
+```markdown
+![架构图](/images/llm-inference-bottleneck/arch.png)
+```
+
+外链图片（`http(s)://` 开头）不受影响，原样渲染。
 
 ## 部署到 GitHub Pages
 

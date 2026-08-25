@@ -1,7 +1,8 @@
 ---
 title: "LLM 推理的算力瓶颈初探"
 date: "2026-08-24"
-tags: ["算力", "GPU", "LLM"]
+category: "算力"
+tags: ["GPU", "LLM"]
 description: "从显存带宽、算子效率到 batch 策略，梳理大模型推理阶段最常见的算力瓶颈。"
 ---
 

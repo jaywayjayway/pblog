@@ -15,6 +15,9 @@ export default function Header() {
           <Link href="/" className="hover:text-zinc-900">
             文章
           </Link>
+          <Link href="/categories" className="hover:text-zinc-900">
+            分类
+          </Link>
           <Link href="/tags" className="hover:text-zinc-900">
             标签
           </Link>

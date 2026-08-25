@@ -22,19 +22,23 @@ export default function PostCard({ post }: { post: PostMeta }) {
       {post.description && (
         <p className="mb-3 text-sm leading-6 text-zinc-600">{post.description}</p>
       )}
-      {post.tags.length > 0 && (
-        <div className="flex flex-wrap gap-2">
-          {post.tags.map((tag) => (
-            <Link
-              key={tag}
-              href={`/tags/${encodeURIComponent(tag)}`}
-              className="rounded-full bg-zinc-100 px-2.5 py-0.5 text-xs text-zinc-600 hover:bg-zinc-200"
-            >
-              {tag}
-            </Link>
-          ))}
-        </div>
-      )}
+      <div className="flex flex-wrap items-center gap-2">
+        <Link
+          href={`/categories/${encodeURIComponent(post.category)}`}
+          className="rounded-full bg-zinc-900 px-2.5 py-0.5 text-xs text-white hover:bg-zinc-700"
+        >
+          {post.category}
+        </Link>
+        {post.tags.map((tag) => (
+          <Link
+            key={tag}
+            href={`/tags/${encodeURIComponent(tag)}`}
+            className="rounded-full bg-zinc-100 px-2.5 py-0.5 text-xs text-zinc-600 hover:bg-zinc-200"
+          >
+            {tag}
+          </Link>
+        ))}
+      </div>
     </article>
   );
 }
