@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">RDMA 控制路径与稳定态数据路径</title>
+  <desc id="desc">控制路径通过内核创建资源并注册内存，稳定态由应用提交工作请求，RNIC 直接对注册内存执行 DMA。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071525"/><stop offset="1" stop-color="#121a38"/></linearGradient>
+    <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0ea5e9"/><stop offset="1" stop-color="#22d3ee"/></linearGradient>
+    <linearGradient id="purple" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#7c3aed"/><stop offset="1" stop-color="#c084fc"/></linearGradient>
+    <marker id="arrowC" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#22d3ee"/></marker>
+    <marker id="arrowP" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#a78bfa"/></marker>
+    <style>.title{font:700 40px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#f8fafc}.sub{font:400 18px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#94a3b8}.head{font:700 24px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#f8fafc}.label{font:700 18px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#f8fafc}.tiny{font:500 14px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#b6c2d3}.card{fill:#0c2035;stroke:#334155;stroke-width:2}.cyan{fill:#0b2a3c;stroke:#22d3ee;stroke-width:2}.purple{fill:#211b43;stroke:#a78bfa;stroke-width:2}.cline{fill:none;stroke:#22d3ee;stroke-width:5;marker-end:url(#arrowC)}.pline{fill:none;stroke:#a78bfa;stroke-width:4;stroke-dasharray:10 9;marker-end:url(#arrowP)}</style>
+  </defs>
+  <rect width="1600" height="900" rx="32" fill="url(#bg)"/>
+  <g opacity=".12" stroke="#60a5fa"><path d="M0 150H1600M0 300H1600M0 450H1600M0 600H1600M0 750H1600"/><path d="M200 0V900M400 0V900M600 0V900M800 0V900M1000 0V900M1200 0V900M1400 0V900"/></g>
+  <text x="72" y="72" class="title">RDMA：控制路径仍经内核，稳定态数据路径由 RNIC 执行</text>
+  <text x="72" y="108" class="sub">Kernel Bypass 减少系统调用与数据复制，并不代表绕过内存或完全不需要 CPU</text>
+
+  <rect x="70" y="160" width="680" height="640" rx="30" class="card"/><rect x="850" y="160" width="680" height="640" rx="30" class="card"/>
+  <rect x="94" y="184" width="150" height="42" rx="21" fill="url(#cyan)"/><text x="169" y="212" text-anchor="middle" class="label">发送端</text>
+  <rect x="874" y="184" width="150" height="42" rx="21" fill="url(#purple)"/><text x="949" y="212" text-anchor="middle" class="label">接收端</text>
+
+  <rect x="130" y="270" width="250" height="95" rx="20" class="cyan"/><text x="255" y="310" text-anchor="middle" class="head">用户态应用</text><text x="255" y="340" text-anchor="middle" class="tiny">提交 WR · 轮询 CQ</text>
+  <rect x="440" y="270" width="250" height="95" rx="20" class="card"/><text x="565" y="310" text-anchor="middle" class="head">内核 / RDMA Core</text><text x="565" y="340" text-anchor="middle" class="tiny">建连 · 注册 · 权限映射</text>
+  <path d="M380 300H440" class="pline"/><text x="410" y="285" text-anchor="middle" class="tiny">控制路径</text>
+
+  <rect x="130" y="455" width="250" height="105" rx="20" class="cyan"/><text x="255" y="498" text-anchor="middle" class="head">注册内存 MR</text><text x="255" y="530" text-anchor="middle" class="tiny">addr · length · lkey/rkey</text>
+  <rect x="440" y="455" width="250" height="105" rx="20" class="cyan"/><text x="565" y="498" text-anchor="middle" class="head">RNIC / HCA</text><text x="565" y="530" text-anchor="middle" class="tiny">QP · DMA · 协议卸载</text>
+  <path d="M255 365V455" class="cline"/><text x="274" y="414" class="tiny">WQE</text><path d="M380 507H440" class="cline"/>
+
+  <rect x="910" y="270" width="250" height="95" rx="20" class="purple"/><text x="1035" y="310" text-anchor="middle" class="head">远端应用</text><text x="1035" y="340" text-anchor="middle" class="tiny">管理地址、rkey 与状态</text>
+  <rect x="1220" y="270" width="250" height="95" rx="20" class="card"/><text x="1345" y="310" text-anchor="middle" class="head">内核 / RDMA Core</text><text x="1345" y="340" text-anchor="middle" class="tiny">控制路径与资源管理</text>
+  <rect x="910" y="455" width="250" height="105" rx="20" class="purple"/><text x="1035" y="498" text-anchor="middle" class="head">远端 RNIC</text><text x="1035" y="530" text-anchor="middle" class="tiny">校验 QP · rkey · 权限</text>
+  <rect x="1220" y="455" width="250" height="105" rx="20" class="purple"/><text x="1345" y="498" text-anchor="middle" class="head">远端注册内存</text><text x="1345" y="530" text-anchor="middle" class="tiny">CPU 内存或已映射 GPU 内存</text>
+  <path d="M910 507H690" class="pline"/><text x="800" y="488" text-anchor="middle" class="tiny">Fabric</text><path d="M1160 507H1220" class="pline"/>
+  <path d="M690 507H910" class="cline"/><path d="M1160 507H1220" class="cline"/>
+  <path d="M1035 455V365" class="pline"/>
+
+  <rect x="130" y="655" width="1340" height="92" rx="22" fill="#0b1b2e" stroke="#334155"/>
+  <circle cx="175" cy="686" r="8" fill="#22d3ee"/><text x="197" y="692" class="label">稳定态数据路径</text><text x="390" y="692" class="tiny">应用 → QP/WQE → RNIC DMA → Fabric → 远端 RNIC → MR</text>
+  <line x1="175" y1="720" x2="245" y2="720" stroke="#a78bfa" stroke-width="4" stroke-dasharray="10 9"/><text x="265" y="726" class="label">控制路径</text><text x="410" y="726" class="tiny">建连、内存注册、权限与异常处理仍需软件栈参与</text>
+  <text x="1450" y="721" text-anchor="end" class="tiny">GPU 显存直达需要 GPUDirect RDMA / DMA-BUF 等额外支持</text>
+</svg>
