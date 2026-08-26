@@ -24,7 +24,7 @@
 
   <rect x="130" y="455" width="250" height="105" rx="20" class="cyan"/><text x="255" y="498" text-anchor="middle" class="head">注册内存 MR</text><text x="255" y="530" text-anchor="middle" class="tiny">addr · length · lkey/rkey</text>
   <rect x="440" y="455" width="250" height="105" rx="20" class="cyan"/><text x="565" y="498" text-anchor="middle" class="head">RNIC / HCA</text><text x="565" y="530" text-anchor="middle" class="tiny">QP · DMA · 协议卸载</text>
-  <path d="M255 365V455" class="cline"/><text x="274" y="414" class="tiny">WQE</text><path d="M380 507H440" class="cline"/>
+  <path d="M380 337C430 355 485 402 525 455" class="cline"/><text x="455" y="382" class="tiny">提交 WQE 到 QP</text><path d="M380 507H440" class="cline"/><text x="410" y="490" text-anchor="middle" class="tiny">DMA</text>
 
   <rect x="910" y="270" width="250" height="95" rx="20" class="purple"/><text x="1035" y="310" text-anchor="middle" class="head">远端应用</text><text x="1035" y="340" text-anchor="middle" class="tiny">管理地址、rkey 与状态</text>
   <rect x="1220" y="270" width="250" height="95" rx="20" class="card"/><text x="1345" y="310" text-anchor="middle" class="head">内核 / RDMA Core</text><text x="1345" y="340" text-anchor="middle" class="tiny">控制路径与资源管理</text>
