@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">GPU 到 NIC 的三类节点内路径</title>
+  <desc id="desc">对比近端 GPUDirect RDMA、跨 Root Complex 或 NUMA 的 GDR 路径，以及通过 Host Memory 中转的数据路径。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071525"/><stop offset="1" stop-color="#121a38"/></linearGradient>
+    <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0ea5e9"/><stop offset="1" stop-color="#22d3ee"/></linearGradient>
+    <linearGradient id="purple" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#7c3aed"/><stop offset="1" stop-color="#c084fc"/></linearGradient>
+    <marker id="arrowC" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#22d3ee"/></marker>
+    <marker id="arrowP" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#a78bfa"/></marker>
+    <marker id="arrowO" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#f59e0b"/></marker>
+    <style>.title{font:700 40px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#f8fafc}.sub{font:400 18px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#94a3b8}.head{font:700 23px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#f8fafc}.label{font:700 17px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#f8fafc}.tiny{font:500 14px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#b6c2d3}.card{fill:#0c2035;stroke:#334155;stroke-width:2}.cyan{fill:#0b2a3c;stroke:#22d3ee;stroke-width:2}.purple{fill:#211b43;stroke:#a78bfa;stroke-width:2}.good{fill:none;stroke:#22d3ee;stroke-width:5;marker-end:url(#arrowC)}.slow{fill:none;stroke:#a78bfa;stroke-width:5;marker-end:url(#arrowP)}.copy{fill:none;stroke:#f59e0b;stroke-width:5;stroke-dasharray:10 8;marker-end:url(#arrowO)}</style>
+  </defs>
+  <rect width="1600" height="900" rx="32" fill="url(#bg)"/>
+  <g opacity=".12" stroke="#60a5fa"><path d="M0 150H1600M0 300H1600M0 450H1600M0 600H1600M0 750H1600"/><path d="M200 0V900M400 0V900M600 0V900M800 0V900M1000 0V900M1200 0V900M1400 0V900"/></g>
+  <text x="72" y="72" class="title">同样是 GPU → NIC，节点内路径可能完全不同</text>
+  <text x="72" y="108" class="sub">GDR 决定 Payload 能否直接 DMA；PCIe、Root Complex 与 NUMA 距离决定它需要经过哪些共享资源</text>
+
+  <rect x="55" y="155" width="480" height="645" rx="30" class="card"/>
+  <rect x="80" y="180" width="180" height="42" rx="21" fill="url(#cyan)"/><text x="170" y="208" text-anchor="middle" class="label">A · 近端 GDR</text>
+  <text x="80" y="252" class="tiny">GPU 与 RNIC 位于较近的 PCIe Switch 路径</text>
+  <rect x="115" y="315" width="170" height="90" rx="20" class="cyan"/><text x="200" y="355" text-anchor="middle" class="head">GPU HBM</text><text x="200" y="382" text-anchor="middle" class="tiny">已注册 GPU Memory</text>
+  <rect x="305" y="315" width="185" height="90" rx="20" class="cyan"/><text x="397" y="355" text-anchor="middle" class="head">RNIC</text><text x="397" y="382" text-anchor="middle" class="tiny">Peer DMA</text>
+  <path d="M285 360H305" class="good"/>
+  <rect x="155" y="470" width="280" height="84" rx="20" class="card"/><text x="295" y="505" text-anchor="middle" class="label">PCIe Switch / P2P</text><text x="295" y="532" text-anchor="middle" class="tiny">主要 Payload 不进入 Host Memory</text>
+  <path d="M200 405V470M397 405V470" stroke="#22d3ee" stroke-width="3"/>
+  <text x="295" y="625" text-anchor="middle" class="head">通常是首选路径</text><text x="295" y="660" text-anchor="middle" class="tiny">仍需驱动、内存注册与控制路径</text>
+
+  <rect x="560" y="155" width="480" height="645" rx="30" class="card"/>
+  <rect x="585" y="180" width="220" height="42" rx="21" fill="url(#purple)"/><text x="695" y="208" text-anchor="middle" class="label">B · 跨 Root / NUMA</text>
+  <text x="585" y="252" class="tiny">仍可能使用 GDR，但数据经过更多共享路径</text>
+  <rect x="600" y="315" width="165" height="86" rx="20" class="purple"/><text x="682" y="352" text-anchor="middle" class="head">GPU</text><text x="682" y="379" text-anchor="middle" class="tiny">NUMA 0</text>
+  <rect x="835" y="315" width="165" height="86" rx="20" class="purple"/><text x="917" y="352" text-anchor="middle" class="head">RNIC</text><text x="917" y="379" text-anchor="middle" class="tiny">NUMA 1</text>
+  <rect x="625" y="470" width="160" height="82" rx="20" class="card"/><text x="705" y="503" text-anchor="middle" class="label">Root 0</text><text x="705" y="530" text-anchor="middle" class="tiny">CPU Socket 0</text>
+  <rect x="815" y="470" width="160" height="82" rx="20" class="card"/><text x="895" y="503" text-anchor="middle" class="label">Root 1</text><text x="895" y="530" text-anchor="middle" class="tiny">CPU Socket 1</text>
+  <path d="M682 401V470M917 401V470M785 511H815" class="slow"/>
+  <text x="800" y="600" text-anchor="middle" class="head">共享 Root 与 Socket 互连</text><text x="800" y="635" text-anchor="middle" class="tiny">带宽、时延和抖动更依赖整机实现</text>
+
+  <rect x="1065" y="155" width="480" height="645" rx="30" class="card"/>
+  <rect x="1090" y="180" width="220" height="42" rx="21" fill="#b45309"/><text x="1200" y="208" text-anchor="middle" class="label">C · Host Staging</text>
+  <text x="1090" y="252" class="tiny">GDR 不可用时，Payload 经普通主机内存中转</text>
+  <rect x="1105" y="315" width="170" height="86" rx="20" class="purple"/><text x="1190" y="352" text-anchor="middle" class="head">GPU HBM</text><text x="1190" y="379" text-anchor="middle" class="tiny">CUDA Buffer</text>
+  <rect x="1335" y="315" width="170" height="86" rx="20" class="purple"/><text x="1420" y="352" text-anchor="middle" class="head">RNIC</text><text x="1420" y="379" text-anchor="middle" class="tiny">Network DMA</text>
+  <rect x="1165" y="485" width="280" height="90" rx="20" fill="#302319" stroke="#f59e0b" stroke-width="2"/><text x="1305" y="523" text-anchor="middle" class="head">Host Memory</text><text x="1305" y="551" text-anchor="middle" class="tiny">Bounce Buffer / Staging</text>
+  <path d="M1190 401C1190 445 1235 455 1265 485M1345 485C1380 460 1420 445 1420 401" class="copy"/>
+  <text x="1305" y="635" text-anchor="middle" class="head">增加复制与资源竞争</text><text x="1305" y="670" text-anchor="middle" class="tiny">占用 PCIe、内存控制器和 CPU 侧资源</text>
+
+  <rect x="165" y="825" width="1270" height="44" rx="20" fill="#0b1b2e" stroke="#334155"/><text x="800" y="853" text-anchor="middle" class="tiny">先确认“能不能直接 DMA”，再比较“直接 DMA 走得近不近”；两者是不同问题</text>
+</svg>

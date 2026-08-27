@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="950" viewBox="0 0 1600 950" role="img" aria-labelledby="title desc">
+  <title id="title">典型 8-GPU HGX 节点的多 Rail 逻辑模型</title>
+  <desc id="desc">八张 GPU 通过 NVSwitch 形成节点内互连域，并按 PCIe 亲和映射到四张 RNIC 和四个网络 Rail。该图为逻辑示例，实际接线取决于服务器型号。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071525"/><stop offset="1" stop-color="#121a38"/></linearGradient>
+    <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0ea5e9"/><stop offset="1" stop-color="#22d3ee"/></linearGradient>
+    <linearGradient id="purple" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#7c3aed"/><stop offset="1" stop-color="#c084fc"/></linearGradient>
+    <style>.title{font:700 40px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#f8fafc}.sub{font:400 18px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#94a3b8}.head{font:700 22px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#f8fafc}.label{font:700 17px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#f8fafc}.tiny{font:500 14px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#b6c2d3}.card{fill:#0c2035;stroke:#334155;stroke-width:2}.gpu{fill:#0b2a3c;stroke:#22d3ee;stroke-width:2}.nic{fill:#211b43;stroke:#a78bfa;stroke-width:2}.nv{fill:#0b2c46;stroke:#38bdf8;stroke-width:2}.pcie{fill:#15233a;stroke:#64748b;stroke-width:2}.aff{fill:none;stroke:#22d3ee;stroke-width:3;stroke-dasharray:8 7}.rail{fill:none;stroke:#a78bfa;stroke-width:5}</style>
+  </defs>
+  <rect width="1600" height="950" rx="32" fill="url(#bg)"/>
+  <g opacity=".12" stroke="#60a5fa"><path d="M0 150H1600M0 300H1600M0 450H1600M0 600H1600M0 750H1600M0 900H1600"/><path d="M200 0V950M400 0V950M600 0V950M800 0V950M1000 0V950M1200 0V950M1400 0V950"/></g>
+  <text x="72" y="68" class="title">8-GPU HGX：NVSwitch 域之下，仍要规划 GPU-NIC 亲和</text>
+  <text x="72" y="106" class="sub">逻辑示例：GPU/NVSwitch 属于 HGX 基础平台；RNIC 数量、PCIe Switch 与 CPU 接线以整机厂商设计和实机拓扑为准</text>
+
+  <rect x="70" y="145" width="1460" height="670" rx="30" class="card"/>
+  <rect x="94" y="168" width="210" height="42" rx="21" fill="url(#cyan)"/><text x="199" y="196" text-anchor="middle" class="label">节点内 Scale-Up</text>
+  <text x="335" y="195" class="tiny">8 GPU 共享 NVLink/NVSwitch 域，但到 RNIC 的 PCIe 距离可能不同</text>
+
+  <g>
+    <rect x="120" y="250" width="135" height="72" rx="18" class="gpu"/><text x="187" y="280" text-anchor="middle" class="head">GPU 0</text><text x="187" y="305" text-anchor="middle" class="tiny">HBM</text>
+    <rect x="290" y="250" width="135" height="72" rx="18" class="gpu"/><text x="357" y="280" text-anchor="middle" class="head">GPU 1</text><text x="357" y="305" text-anchor="middle" class="tiny">HBM</text>
+    <rect x="460" y="250" width="135" height="72" rx="18" class="gpu"/><text x="527" y="280" text-anchor="middle" class="head">GPU 2</text><text x="527" y="305" text-anchor="middle" class="tiny">HBM</text>
+    <rect x="630" y="250" width="135" height="72" rx="18" class="gpu"/><text x="697" y="280" text-anchor="middle" class="head">GPU 3</text><text x="697" y="305" text-anchor="middle" class="tiny">HBM</text>
+    <rect x="835" y="250" width="135" height="72" rx="18" class="gpu"/><text x="902" y="280" text-anchor="middle" class="head">GPU 4</text><text x="902" y="305" text-anchor="middle" class="tiny">HBM</text>
+    <rect x="1005" y="250" width="135" height="72" rx="18" class="gpu"/><text x="1072" y="280" text-anchor="middle" class="head">GPU 5</text><text x="1072" y="305" text-anchor="middle" class="tiny">HBM</text>
+    <rect x="1175" y="250" width="135" height="72" rx="18" class="gpu"/><text x="1242" y="280" text-anchor="middle" class="head">GPU 6</text><text x="1242" y="305" text-anchor="middle" class="tiny">HBM</text>
+    <rect x="1345" y="250" width="135" height="72" rx="18" class="gpu"/><text x="1412" y="280" text-anchor="middle" class="head">GPU 7</text><text x="1412" y="305" text-anchor="middle" class="tiny">HBM</text>
+  </g>
+  <rect x="245" y="365" width="1110" height="80" rx="24" class="nv"/><text x="800" y="398" text-anchor="middle" class="head">NVSwitch Fabric / NVLink Domain</text><text x="800" y="426" text-anchor="middle" class="tiny">节点内 GPU P2P、Collective 与 PXN 中间 GPU 路径的基础</text>
+  <g stroke="#38bdf8" stroke-width="3"><path d="M187 322V365M357 322V365M527 322V365M697 322V365M902 322V365M1072 322V365M1242 322V365M1412 322V365"/></g>
+
+  <rect x="125" y="500" width="300" height="76" rx="19" class="pcie"/><text x="275" y="532" text-anchor="middle" class="head">PCIe Branch 0</text><text x="275" y="558" text-anchor="middle" class="tiny">GPU 0/1 的示例近端路径</text>
+  <rect x="475" y="500" width="300" height="76" rx="19" class="pcie"/><text x="625" y="532" text-anchor="middle" class="head">PCIe Branch 1</text><text x="625" y="558" text-anchor="middle" class="tiny">GPU 2/3 的示例近端路径</text>
+  <rect x="825" y="500" width="300" height="76" rx="19" class="pcie"/><text x="975" y="532" text-anchor="middle" class="head">PCIe Branch 2</text><text x="975" y="558" text-anchor="middle" class="tiny">GPU 4/5 的示例近端路径</text>
+  <rect x="1175" y="500" width="300" height="76" rx="19" class="pcie"/><text x="1325" y="532" text-anchor="middle" class="head">PCIe Branch 3</text><text x="1325" y="558" text-anchor="middle" class="tiny">GPU 6/7 的示例近端路径</text>
+  <g class="aff"><path d="M187 322C187 420 225 455 275 500M357 322C357 420 325 455 275 500M527 322C527 420 575 455 625 500M697 322C697 420 675 455 625 500M902 322C902 420 925 455 975 500M1072 322C1072 420 1025 455 975 500M1242 322C1242 420 1275 455 1325 500M1412 322C1412 420 1375 455 1325 500"/></g>
+
+  <rect x="160" y="625" width="230" height="74" rx="20" class="nic"/><text x="275" y="657" text-anchor="middle" class="head">RNIC 0</text><text x="275" y="683" text-anchor="middle" class="tiny">Rail 0</text>
+  <rect x="510" y="625" width="230" height="74" rx="20" class="nic"/><text x="625" y="657" text-anchor="middle" class="head">RNIC 1</text><text x="625" y="683" text-anchor="middle" class="tiny">Rail 1</text>
+  <rect x="860" y="625" width="230" height="74" rx="20" class="nic"/><text x="975" y="657" text-anchor="middle" class="head">RNIC 2</text><text x="975" y="683" text-anchor="middle" class="tiny">Rail 2</text>
+  <rect x="1210" y="625" width="230" height="74" rx="20" class="nic"/><text x="1325" y="657" text-anchor="middle" class="head">RNIC 3</text><text x="1325" y="683" text-anchor="middle" class="tiny">Rail 3</text>
+  <g stroke="#a78bfa" stroke-width="4"><path d="M275 576V625M625 576V625M975 576V625M1325 576V625"/></g>
+  <g class="rail"><path d="M275 699V780M625 699V780M975 699V780M1325 699V780"/></g>
+  <text x="275" y="795" text-anchor="middle" class="label">Leaf / Plane 0</text><text x="625" y="795" text-anchor="middle" class="label">Leaf / Plane 1</text><text x="975" y="795" text-anchor="middle" class="label">Leaf / Plane 2</text><text x="1325" y="795" text-anchor="middle" class="label">Leaf / Plane 3</text>
+
+  <rect x="155" y="850" width="1290" height="54" rx="22" fill="#0b1b2e" stroke="#334155"/><text x="800" y="882" text-anchor="middle" class="tiny">虚线表示逻辑亲和，不代表固定物理接线；以 nvidia-smi topo -m、lspci、NUMA 与交换机线缆矩阵为准</text>
+</svg>

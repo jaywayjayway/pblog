@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">4 Rank AllReduce 的 ReduceScatter 与 AllGather</title>
+  <desc id="desc">四个 Rank 的数据先沿 Ring 分块归约，每个 Rank 留下一个归约分块，再通过 AllGather 交换得到完整结果。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071525"/><stop offset="1" stop-color="#121a38"/></linearGradient>
+    <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0ea5e9"/><stop offset="1" stop-color="#22d3ee"/></linearGradient>
+    <linearGradient id="purple" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#7c3aed"/><stop offset="1" stop-color="#c084fc"/></linearGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#22d3ee"/></marker>
+    <style>.title{font:700 40px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#f8fafc}.sub{font:400 18px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#94a3b8}.head{font:700 23px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#f8fafc}.label{font:700 17px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#f8fafc}.tiny{font:500 14px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#b6c2d3}.card{fill:#0c2035;stroke:#334155;stroke-width:2}.rank{fill:#0b2a3c;stroke:#22d3ee;stroke-width:2}.line{fill:none;stroke:#22d3ee;stroke-width:4;marker-end:url(#arrow)}</style>
+  </defs>
+  <rect width="1600" height="900" rx="32" fill="url(#bg)"/>
+  <g opacity=".12" stroke="#60a5fa"><path d="M0 150H1600M0 300H1600M0 450H1600M0 600H1600M0 750H1600"/><path d="M200 0V900M400 0V900M600 0V900M800 0V900M1000 0V900M1200 0V900M1400 0V900"/></g>
+  <text x="72" y="72" class="title">AllReduce = ReduceScatter + AllGather</text>
+  <text x="72" y="108" class="sub">4 Rank Ring 示例：先分块归约，再交换归约结果；真实 NCCL 会使用多个 Channel 和流水线</text>
+
+  <rect x="70" y="155" width="1460" height="175" rx="28" class="card"/>
+  <rect x="94" y="178" width="180" height="42" rx="21" fill="url(#cyan)"/><text x="184" y="206" text-anchor="middle" class="label">初始输入</text>
+  <text x="312" y="206" class="tiny">每个 Rank 都有一份大小为 S 的输入，切成 4 个 Chunk</text>
+  <g transform="translate(120 240)"><rect width="290" height="62" rx="18" class="rank"/><text x="24" y="38" class="label">Rank 0</text><g transform="translate(112 15)"><rect width="36" height="32" rx="7" fill="#22d3ee"/><rect x="42" width="36" height="32" rx="7" fill="#38bdf8"/><rect x="84" width="36" height="32" rx="7" fill="#a78bfa"/><rect x="126" width="36" height="32" rx="7" fill="#c084fc"/></g></g>
+  <g transform="translate(470 240)"><rect width="290" height="62" rx="18" class="rank"/><text x="24" y="38" class="label">Rank 1</text><g transform="translate(112 15)"><rect width="36" height="32" rx="7" fill="#22d3ee"/><rect x="42" width="36" height="32" rx="7" fill="#38bdf8"/><rect x="84" width="36" height="32" rx="7" fill="#a78bfa"/><rect x="126" width="36" height="32" rx="7" fill="#c084fc"/></g></g>
+  <g transform="translate(820 240)"><rect width="290" height="62" rx="18" class="rank"/><text x="24" y="38" class="label">Rank 2</text><g transform="translate(112 15)"><rect width="36" height="32" rx="7" fill="#22d3ee"/><rect x="42" width="36" height="32" rx="7" fill="#38bdf8"/><rect x="84" width="36" height="32" rx="7" fill="#a78bfa"/><rect x="126" width="36" height="32" rx="7" fill="#c084fc"/></g></g>
+  <g transform="translate(1170 240)"><rect width="290" height="62" rx="18" class="rank"/><text x="24" y="38" class="label">Rank 3</text><g transform="translate(112 15)"><rect width="36" height="32" rx="7" fill="#22d3ee"/><rect x="42" width="36" height="32" rx="7" fill="#38bdf8"/><rect x="84" width="36" height="32" rx="7" fill="#a78bfa"/><rect x="126" width="36" height="32" rx="7" fill="#c084fc"/></g></g>
+
+  <rect x="70" y="360" width="705" height="330" rx="28" class="card"/>
+  <rect x="94" y="383" width="210" height="42" rx="21" fill="url(#cyan)"/><text x="199" y="411" text-anchor="middle" class="label">ReduceScatter</text>
+  <text x="330" y="410" class="tiny">3 轮，每轮发送 S/4</text>
+  <path d="M230 505C310 430 520 430 600 505M600 505C675 560 675 620 590 645M590 645C500 710 290 710 205 635M205 635C135 575 145 535 230 505" class="line"/>
+  <g><circle cx="225" cy="510" r="46" fill="#0b2a3c" stroke="#22d3ee" stroke-width="3"/><text x="225" y="516" text-anchor="middle" class="label">R0</text><circle cx="600" cy="510" r="46" fill="#0b2a3c" stroke="#38bdf8" stroke-width="3"/><text x="600" y="516" text-anchor="middle" class="label">R1</text><circle cx="600" cy="630" r="46" fill="#211b43" stroke="#a78bfa" stroke-width="3"/><text x="600" y="636" text-anchor="middle" class="label">R2</text><circle cx="225" cy="630" r="46" fill="#211b43" stroke="#c084fc" stroke-width="3"/><text x="225" y="636" text-anchor="middle" class="label">R3</text></g>
+  <text x="412" y="565" text-anchor="middle" class="head">每个 Rank 留下 1 个</text><text x="412" y="595" text-anchor="middle" class="tiny">已经完成归约的 Chunk</text>
+
+  <rect x="825" y="360" width="705" height="330" rx="28" class="card"/>
+  <rect x="849" y="383" width="180" height="42" rx="21" fill="url(#purple)"/><text x="939" y="411" text-anchor="middle" class="label">AllGather</text>
+  <text x="1055" y="410" class="tiny">再用 3 轮交换归约 Chunk</text>
+  <g transform="translate(875 470)"><rect width="610" height="58" rx="16" class="rank"/><text x="24" y="36" class="label">Rank 0</text><g transform="translate(165 13)"><rect width="72" height="32" rx="7" fill="#22d3ee"/><rect x="80" width="72" height="32" rx="7" fill="#38bdf8"/><rect x="160" width="72" height="32" rx="7" fill="#a78bfa"/><rect x="240" width="72" height="32" rx="7" fill="#c084fc"/></g></g>
+  <g transform="translate(875 540)"><rect width="610" height="58" rx="16" class="rank"/><text x="24" y="36" class="label">Rank 1</text><g transform="translate(165 13)"><rect width="72" height="32" rx="7" fill="#22d3ee"/><rect x="80" width="72" height="32" rx="7" fill="#38bdf8"/><rect x="160" width="72" height="32" rx="7" fill="#a78bfa"/><rect x="240" width="72" height="32" rx="7" fill="#c084fc"/></g></g>
+  <g transform="translate(875 610)"><rect width="610" height="58" rx="16" class="rank"/><text x="24" y="36" class="label">Rank 2 / 3</text><g transform="translate(165 13)"><rect width="72" height="32" rx="7" fill="#22d3ee"/><rect x="80" width="72" height="32" rx="7" fill="#38bdf8"/><rect x="160" width="72" height="32" rx="7" fill="#a78bfa"/><rect x="240" width="72" height="32" rx="7" fill="#c084fc"/></g></g>
+
+  <rect x="190" y="735" width="1220" height="100" rx="24" fill="#0b1b2e" stroke="#334155"/>
+  <text x="800" y="777" text-anchor="middle" class="head">单 Rank 累计发送量：2 × (N-1)/N × S（累计接收量相同）</text>
+  <text x="800" y="812" text-anchor="middle" class="tiny">N=4 时发送 1.5S；N 很大时趋近 2S。步骤数和逻辑流量不等同于某一条物理链路的实际负载</text>
+</svg>
