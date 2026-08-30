@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="950" viewBox="0 0 1600 950" role="img" aria-labelledby="title desc">
+  <title id="title">1024 GPU RoCEv2 集群容量展开</title>
+  <desc id="desc">128 台八卡服务器形成 1024 个 400G 端点，经八个 Rail、十六台 Leaf 和八台 Spine 组成 1 比 1 单平面 Clos。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071525"/><stop offset="1" stop-color="#121a38"/></linearGradient>
+    <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0ea5e9"/><stop offset="1" stop-color="#22d3ee"/></linearGradient>
+    <linearGradient id="purple" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#7c3aed"/><stop offset="1" stop-color="#c084fc"/></linearGradient>
+    <style>.title{font:700 40px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#f8fafc}.sub{font:400 18px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#94a3b8}.head{font:700 23px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#f8fafc}.label{font:700 16px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#f8fafc}.tiny{font:500 14px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#b6c2d3}.card{fill:#0c2035;stroke:#334155;stroke-width:2}.node{fill:#0b2a3c;stroke:#22d3ee;stroke-width:2}.leaf{fill:#17304a;stroke:#38bdf8;stroke-width:2}.spine{fill:#211b43;stroke:#a78bfa;stroke-width:2}.line{fill:none;stroke:#22d3ee;stroke-width:3;opacity:.8}.uplink{fill:none;stroke:#a78bfa;stroke-width:3;opacity:.8}</style>
+  </defs>
+  <rect width="1600" height="950" rx="32" fill="url(#bg)"/>
+  <g opacity=".12" stroke="#60a5fa"><path d="M0 150H1600M0 300H1600M0 450H1600M0 600H1600M0 750H1600M0 900H1600"/><path d="M200 0V950M400 0V950M600 0V950M800 0V950M1000 0V950M1200 0V950M1400 0V950"/></g>
+  <text x="72" y="68" class="title">把“千卡”展开：1024 GPU = 1024 个 400G 网络端点</text>
+  <text x="72" y="106" class="sub">128 台八卡服务器 · 8 Rail · 16 Leaf · 8 Spine · 1:1 收敛比</text>
+
+  <rect x="70" y="150" width="1460" height="150" rx="28" class="card"/>
+  <rect x="94" y="174" width="170" height="42" rx="21" fill="url(#purple)"/><text x="179" y="202" text-anchor="middle" class="label">Spine 层</text>
+  <text x="300" y="202" class="tiny">8 台，每台使用 128×400G 逻辑端口</text>
+  <g>
+    <rect x="125" y="235" width="145" height="42" rx="14" class="spine"/><text x="197" y="262" text-anchor="middle" class="label">Spine 01</text>
+    <rect x="300" y="235" width="145" height="42" rx="14" class="spine"/><text x="372" y="262" text-anchor="middle" class="label">Spine 02</text>
+    <rect x="475" y="235" width="145" height="42" rx="14" class="spine"/><text x="547" y="262" text-anchor="middle" class="label">Spine 03</text>
+    <text x="800" y="263" text-anchor="middle" class="head">…</text>
+    <rect x="980" y="235" width="145" height="42" rx="14" class="spine"/><text x="1052" y="262" text-anchor="middle" class="label">Spine 06</text>
+    <rect x="1155" y="235" width="145" height="42" rx="14" class="spine"/><text x="1227" y="262" text-anchor="middle" class="label">Spine 07</text>
+    <rect x="1330" y="235" width="145" height="42" rx="14" class="spine"/><text x="1402" y="262" text-anchor="middle" class="label">Spine 08</text>
+  </g>
+
+  <rect x="70" y="335" width="1460" height="185" rx="28" class="card"/>
+  <rect x="94" y="359" width="170" height="42" rx="21" fill="url(#cyan)"/><text x="179" y="387" text-anchor="middle" class="label">Leaf 层</text>
+  <text x="300" y="387" class="tiny">16 台；每台 64×400G 下联 + 64×400G 上联</text>
+  <g>
+    <rect x="110" y="435" width="160" height="58" rx="16" class="leaf"/><text x="190" y="460" text-anchor="middle" class="label">Leaf 01</text><text x="190" y="481" text-anchor="middle" class="tiny">Rail 0 + 1</text>
+    <rect x="290" y="435" width="160" height="58" rx="16" class="leaf"/><text x="370" y="460" text-anchor="middle" class="label">Leaf 02</text><text x="370" y="481" text-anchor="middle" class="tiny">Rail 2 + 3</text>
+    <rect x="470" y="435" width="160" height="58" rx="16" class="leaf"/><text x="550" y="460" text-anchor="middle" class="label">Leaf 03</text><text x="550" y="481" text-anchor="middle" class="tiny">Rail 4 + 5</text>
+    <rect x="650" y="435" width="160" height="58" rx="16" class="leaf"/><text x="730" y="460" text-anchor="middle" class="label">Leaf 04</text><text x="730" y="481" text-anchor="middle" class="tiny">Rail 6 + 7</text>
+    <text x="890" y="470" text-anchor="middle" class="head">× 4 个 Node 组</text>
+    <rect x="1110" y="435" width="180" height="58" rx="16" class="leaf"/><text x="1200" y="460" text-anchor="middle" class="label">Leaf 13～16</text><text x="1200" y="481" text-anchor="middle" class="tiny">Node096～127</text>
+    <rect x="1320" y="435" width="160" height="58" rx="16" fill="#10283d" stroke="#64748b" stroke-width="2"/><text x="1400" y="460" text-anchor="middle" class="label">合计</text><text x="1400" y="481" text-anchor="middle" class="tiny">16 Leaf</text>
+  </g>
+
+  <rect x="70" y="555" width="1460" height="235" rx="28" class="card"/>
+  <rect x="94" y="579" width="200" height="42" rx="21" fill="url(#cyan)"/><text x="194" y="607" text-anchor="middle" class="label">服务器与 Rail</text>
+  <text x="330" y="607" class="tiny">每组 32 台服务器；每台 8 GPU + 8×400G RNIC</text>
+  <g>
+    <rect x="110" y="660" width="300" height="92" rx="20" class="node"/><text x="260" y="692" text-anchor="middle" class="head">Node000～031</text><text x="260" y="721" text-anchor="middle" class="tiny">256 GPU · 256×400G</text>
+    <rect x="470" y="660" width="300" height="92" rx="20" class="node"/><text x="620" y="692" text-anchor="middle" class="head">Node032～063</text><text x="620" y="721" text-anchor="middle" class="tiny">256 GPU · 256×400G</text>
+    <rect x="830" y="660" width="300" height="92" rx="20" class="node"/><text x="980" y="692" text-anchor="middle" class="head">Node064～095</text><text x="980" y="721" text-anchor="middle" class="tiny">256 GPU · 256×400G</text>
+    <rect x="1190" y="660" width="300" height="92" rx="20" class="node"/><text x="1340" y="692" text-anchor="middle" class="head">Node096～127</text><text x="1340" y="721" text-anchor="middle" class="tiny">256 GPU · 256×400G</text>
+  </g>
+  <path d="M260 660V520M620 660V520M980 660V520M1340 660V520" class="line"/>
+  <path d="M190 435V300M550 435V300M910 435V300M1270 435V300" class="uplink"/>
+
+  <rect x="160" y="835" width="1280" height="70" rx="24" fill="#0b1b2e" stroke="#334155"/>
+  <text x="800" y="866" text-anchor="middle" class="head">端点带宽 409.6Tbps → Leaf 上联也必须是 409.6Tbps</text>
+  <text x="800" y="890" text-anchor="middle" class="tiny">图中为容量聚合示意；生产布线必须落实到 GPU、RNIC、交换机端口和光纤编号</text>
+</svg>

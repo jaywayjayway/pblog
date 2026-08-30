@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="980" viewBox="0 0 1600 980" role="img" aria-labelledby="title desc">
+  <title id="title">单平面、4+4 双平面和完整双平面对比</title>
+  <desc id="desc">对比八张 GPU 和八张 RNIC 在单平面、四加四双平面以及八百G拆分双平面中的接线、带宽和故障结果。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071525"/><stop offset="1" stop-color="#121a38"/></linearGradient>
+    <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0ea5e9"/><stop offset="1" stop-color="#22d3ee"/></linearGradient>
+    <linearGradient id="purple" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#7c3aed"/><stop offset="1" stop-color="#c084fc"/></linearGradient>
+    <style>.title{font:700 40px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#f8fafc}.sub{font:400 18px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#94a3b8}.head{font:700 22px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#f8fafc}.label{font:700 16px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#f8fafc}.tiny{font:500 14px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#b6c2d3}.card{fill:#0c2035;stroke:#334155;stroke-width:2}.gpu{fill:#0b2a3c;stroke:#22d3ee;stroke-width:2}.nic{fill:#172840;stroke:#38bdf8;stroke-width:2}.planeA{fill:#073047;stroke:#22d3ee;stroke-width:2}.planeB{fill:#211b43;stroke:#a78bfa;stroke-width:2}.lineA{fill:none;stroke:#22d3ee;stroke-width:4}.lineB{fill:none;stroke:#a78bfa;stroke-width:4}</style>
+  </defs>
+  <rect width="1600" height="980" rx="32" fill="url(#bg)"/>
+  <g opacity=".12" stroke="#60a5fa"><path d="M0 150H1600M0 300H1600M0 450H1600M0 600H1600M0 750H1600M0 900H1600"/><path d="M200 0V980M400 0V980M600 0V980M800 0V980M1000 0V980M1200 0V980M1400 0V980"/></g>
+  <text x="72" y="68" class="title">“双平面”不是一个固定答案：先看每张 GPU 有几条路径</text>
+  <text x="72" y="106" class="sub">同样是 128 台八卡机，端口分配不同，正常带宽、设备数量和故障承诺完全不同</text>
+
+  <rect x="55" y="150" width="480" height="730" rx="30" class="card"/>
+  <rect x="80" y="176" width="190" height="42" rx="21" fill="url(#cyan)"/><text x="175" y="204" text-anchor="middle" class="label">A · 单平面</text>
+  <text x="80" y="251" class="tiny">8×400G 全部进入同一故障域</text>
+  <g>
+    <rect x="85" y="300" width="42" height="58" rx="10" class="gpu"/><text x="106" y="334" text-anchor="middle" class="label">G0</text>
+    <rect x="138" y="300" width="42" height="58" rx="10" class="gpu"/><text x="159" y="334" text-anchor="middle" class="label">G1</text>
+    <rect x="191" y="300" width="42" height="58" rx="10" class="gpu"/><text x="212" y="334" text-anchor="middle" class="label">G2</text>
+    <rect x="244" y="300" width="42" height="58" rx="10" class="gpu"/><text x="265" y="334" text-anchor="middle" class="label">G3</text>
+    <rect x="297" y="300" width="42" height="58" rx="10" class="gpu"/><text x="318" y="334" text-anchor="middle" class="label">G4</text>
+    <rect x="350" y="300" width="42" height="58" rx="10" class="gpu"/><text x="371" y="334" text-anchor="middle" class="label">G5</text>
+    <rect x="403" y="300" width="42" height="58" rx="10" class="gpu"/><text x="424" y="334" text-anchor="middle" class="label">G6</text>
+    <rect x="456" y="300" width="42" height="58" rx="10" class="gpu"/><text x="477" y="334" text-anchor="middle" class="label">G7</text>
+  </g>
+  <rect x="90" y="415" width="410" height="78" rx="20" class="nic"/><text x="295" y="448" text-anchor="middle" class="head">8×400G RNIC</text><text x="295" y="477" text-anchor="middle" class="tiny">节点总带宽 3.2Tbps</text>
+  <path d="M106 358V415M159 358V415M212 358V415M265 358V415M318 358V415M371 358V415M424 358V415M477 358V415" class="lineA"/>
+  <rect x="110" y="555" width="370" height="110" rx="22" class="planeA"/><text x="295" y="598" text-anchor="middle" class="head">Plane A · 8 Rail</text><text x="295" y="628" text-anchor="middle" class="tiny">16 Leaf + 8 Spine</text>
+  <path d="M295 493V555" class="lineA"/>
+  <text x="295" y="738" text-anchor="middle" class="head">平面故障：0 条网络路径</text>
+  <text x="295" y="772" text-anchor="middle" class="tiny">链路冗余仍在，但配置与控制故障域共享</text>
+
+  <rect x="560" y="150" width="480" height="730" rx="30" class="card"/>
+  <rect x="585" y="176" width="220" height="42" rx="21" fill="url(#purple)"/><text x="695" y="204" text-anchor="middle" class="label">B · 4+4 双平面</text>
+  <text x="585" y="251" class="tiny">同样 8×400G，拆成两个独立四 Rail Fabric</text>
+  <g>
+    <rect x="590" y="300" width="42" height="58" rx="10" class="gpu"/><text x="611" y="334" text-anchor="middle" class="label">G0</text>
+    <rect x="643" y="300" width="42" height="58" rx="10" class="gpu"/><text x="664" y="334" text-anchor="middle" class="label">G1</text>
+    <rect x="696" y="300" width="42" height="58" rx="10" class="gpu"/><text x="717" y="334" text-anchor="middle" class="label">G2</text>
+    <rect x="749" y="300" width="42" height="58" rx="10" class="gpu"/><text x="770" y="334" text-anchor="middle" class="label">G3</text>
+    <rect x="809" y="300" width="42" height="58" rx="10" class="gpu"/><text x="830" y="334" text-anchor="middle" class="label">G4</text>
+    <rect x="862" y="300" width="42" height="58" rx="10" class="gpu"/><text x="883" y="334" text-anchor="middle" class="label">G5</text>
+    <rect x="915" y="300" width="42" height="58" rx="10" class="gpu"/><text x="936" y="334" text-anchor="middle" class="label">G6</text>
+    <rect x="968" y="300" width="42" height="58" rx="10" class="gpu"/><text x="989" y="334" text-anchor="middle" class="label">G7</text>
+  </g>
+  <rect x="595" y="415" width="190" height="78" rx="20" class="nic"/><text x="690" y="448" text-anchor="middle" class="head">RNIC 0～3</text><text x="690" y="477" text-anchor="middle" class="tiny">4×400G</text>
+  <rect x="815" y="415" width="190" height="78" rx="20" class="nic"/><text x="910" y="448" text-anchor="middle" class="head">RNIC 4～7</text><text x="910" y="477" text-anchor="middle" class="tiny">4×400G</text>
+  <path d="M611 358V415M664 358V415M717 358V415M770 358V415" class="lineA"/><path d="M830 358V415M883 358V415M936 358V415M989 358V415" class="lineB"/>
+  <rect x="590" y="555" width="200" height="110" rx="22" class="planeA"/><text x="690" y="598" text-anchor="middle" class="head">Plane A</text><text x="690" y="628" text-anchor="middle" class="tiny">8 Leaf + 4 Spine</text>
+  <rect x="810" y="555" width="200" height="110" rx="22" class="planeB"/><text x="910" y="598" text-anchor="middle" class="head">Plane B</text><text x="910" y="628" text-anchor="middle" class="tiny">8 Leaf + 4 Spine</text>
+  <path d="M690 493V555" class="lineA"/><path d="M910 493V555" class="lineB"/>
+  <text x="800" y="738" text-anchor="middle" class="head">单平面故障：剩余 4×400G</text>
+  <text x="800" y="772" text-anchor="middle" class="tiny">能否继续运行取决于 NCCL 与拓扑重选</text>
+
+  <rect x="1065" y="150" width="480" height="730" rx="30" class="card"/>
+  <rect x="1090" y="176" width="250" height="42" rx="21" fill="url(#purple)"/><text x="1215" y="204" text-anchor="middle" class="label">C · 完整双平面</text>
+  <text x="1090" y="251" class="tiny">8×800G RNIC，每张卡拆成两路 400G</text>
+  <g>
+    <rect x="1095" y="300" width="42" height="58" rx="10" class="gpu"/><text x="1116" y="334" text-anchor="middle" class="label">G0</text>
+    <rect x="1148" y="300" width="42" height="58" rx="10" class="gpu"/><text x="1169" y="334" text-anchor="middle" class="label">G1</text>
+    <rect x="1201" y="300" width="42" height="58" rx="10" class="gpu"/><text x="1222" y="334" text-anchor="middle" class="label">G2</text>
+    <rect x="1254" y="300" width="42" height="58" rx="10" class="gpu"/><text x="1275" y="334" text-anchor="middle" class="label">G3</text>
+    <rect x="1307" y="300" width="42" height="58" rx="10" class="gpu"/><text x="1328" y="334" text-anchor="middle" class="label">G4</text>
+    <rect x="1360" y="300" width="42" height="58" rx="10" class="gpu"/><text x="1381" y="334" text-anchor="middle" class="label">G5</text>
+    <rect x="1413" y="300" width="42" height="58" rx="10" class="gpu"/><text x="1434" y="334" text-anchor="middle" class="label">G6</text>
+    <rect x="1466" y="300" width="42" height="58" rx="10" class="gpu"/><text x="1487" y="334" text-anchor="middle" class="label">G7</text>
+  </g>
+  <rect x="1100" y="415" width="410" height="78" rx="20" class="nic"/><text x="1305" y="448" text-anchor="middle" class="head">8×800G → 每张 2×400G</text><text x="1305" y="477" text-anchor="middle" class="tiny">节点正常态总带宽 6.4Tbps</text>
+  <path d="M1116 358V415M1169 358V415M1222 358V415M1275 358V415M1328 358V415M1381 358V415M1434 358V415M1487 358V415" class="lineA"/>
+  <rect x="1095" y="555" width="200" height="110" rx="22" class="planeA"/><text x="1195" y="598" text-anchor="middle" class="head">Plane A · 8 Rail</text><text x="1195" y="628" text-anchor="middle" class="tiny">16 Leaf + 8 Spine</text>
+  <rect x="1315" y="555" width="200" height="110" rx="22" class="planeB"/><text x="1415" y="598" text-anchor="middle" class="head">Plane B · 8 Rail</text><text x="1415" y="628" text-anchor="middle" class="tiny">16 Leaf + 8 Spine</text>
+  <path d="M1260 493C1260 525 1195 525 1195 555" class="lineA"/><path d="M1350 493C1350 525 1415 525 1415 555" class="lineB"/>
+  <text x="1305" y="738" text-anchor="middle" class="head">单平面故障：每 GPU 仍有 400G</text>
+  <text x="1305" y="772" text-anchor="middle" class="tiny">总设备与逻辑链路规模约为单平面两倍</text>
+
+  <rect x="180" y="910" width="1240" height="48" rx="22" fill="#0b1b2e" stroke="#334155"/>
+  <text x="800" y="940" text-anchor="middle" class="tiny">平面冗余不等于作业无感；故障后的重连、路径重选和有效带宽必须通过 NCCL 故障演练验证</text>
+</svg>

@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="950" viewBox="0 0 1600 950" role="img" aria-labelledby="title desc">
+  <title id="title">RoCEv2 Plane、Rail、IP 和 ASN 规划</title>
+  <desc id="desc">展示两个网络平面的地址空间、每个 Rail 的二十四位网段、按 Leaf 组划分的二十六位子网、Loopback、三层互联与私有 ASN。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071525"/><stop offset="1" stop-color="#121a38"/></linearGradient>
+    <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0ea5e9"/><stop offset="1" stop-color="#22d3ee"/></linearGradient>
+    <linearGradient id="purple" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#7c3aed"/><stop offset="1" stop-color="#c084fc"/></linearGradient>
+    <style>.title{font:700 40px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#f8fafc}.sub{font:400 18px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#94a3b8}.head{font:700 23px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#f8fafc}.label{font:700 16px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#f8fafc}.tiny{font:500 14px ui-monospace,SFMono-Regular,Menlo,monospace;fill:#b6c2d3}.card{fill:#0c2035;stroke:#334155;stroke-width:2}.a{fill:#073047;stroke:#22d3ee;stroke-width:2}.b{fill:#211b43;stroke:#a78bfa;stroke-width:2}.infra{fill:#15233a;stroke:#64748b;stroke-width:2}.lineA{fill:none;stroke:#22d3ee;stroke-width:3}.lineB{fill:none;stroke:#a78bfa;stroke-width:3}</style>
+  </defs>
+  <rect width="1600" height="950" rx="32" fill="url(#bg)"/>
+  <g opacity=".12" stroke="#60a5fa"><path d="M0 150H1600M0 300H1600M0 450H1600M0 600H1600M0 750H1600M0 900H1600"/><path d="M200 0V950M400 0V950M600 0V950M800 0V950M1000 0V950M1200 0V950M1400 0V950"/></g>
+  <text x="72" y="68" class="title">IP 规划：Plane 隔离、Rail 聚合、Leaf 子网不跨设备</text>
+  <text x="72" y="106" class="sub">示例地址必须先经过企业 IPAM 校验；图中的规律比具体 10.x 地址更重要</text>
+
+  <rect x="55" y="150" width="720" height="500" rx="30" class="card"/>
+  <rect x="80" y="176" width="190" height="42" rx="21" fill="url(#cyan)"/><text x="175" y="204" text-anchor="middle" class="label">Plane A</text>
+  <text x="305" y="203" class="tiny">GPU: 10.64.0.0/16 · ASN 4200000xxx</text>
+  <g>
+    <rect x="90" y="260" width="300" height="72" rx="18" class="a"/><text x="240" y="290" text-anchor="middle" class="head">Rail 0</text><text x="240" y="316" text-anchor="middle" class="tiny">10.64.0.0/24</text>
+    <rect x="440" y="260" width="300" height="72" rx="18" class="a"/><text x="590" y="290" text-anchor="middle" class="head">Rail 1</text><text x="590" y="316" text-anchor="middle" class="tiny">10.64.1.0/24</text>
+    <rect x="90" y="365" width="300" height="72" rx="18" class="a"/><text x="240" y="395" text-anchor="middle" class="head">Rail 2</text><text x="240" y="421" text-anchor="middle" class="tiny">10.64.2.0/24</text>
+    <rect x="440" y="365" width="300" height="72" rx="18" class="a"/><text x="590" y="395" text-anchor="middle" class="head">Rail 3～7</text><text x="590" y="421" text-anchor="middle" class="tiny">10.64.3.0/24 ... 10.64.7.0/24</text>
+  </g>
+  <rect x="90" y="485" width="650" height="130" rx="22" class="infra"/>
+  <text x="415" y="519" text-anchor="middle" class="label">每个 Rail /24 → 按 Node 组拆为四个 /26</text>
+  <text x="415" y="552" text-anchor="middle" class="tiny">.0/26 · .64/26 · .128/26 · .192/26</text>
+  <text x="415" y="581" text-anchor="middle" class="tiny">gateway = subnet_base + 1</text>
+  <text x="415" y="606" text-anchor="middle" class="tiny">node_ip = subnet_base + 2 + (node_id mod 32)</text>
+
+  <rect x="825" y="150" width="720" height="500" rx="30" class="card"/>
+  <rect x="850" y="176" width="190" height="42" rx="21" fill="url(#purple)"/><text x="945" y="204" text-anchor="middle" class="label">Plane B</text>
+  <text x="1075" y="203" class="tiny">GPU: 10.65.0.0/16 · ASN 4200001xxx</text>
+  <g>
+    <rect x="860" y="260" width="300" height="72" rx="18" class="b"/><text x="1010" y="290" text-anchor="middle" class="head">Rail 0</text><text x="1010" y="316" text-anchor="middle" class="tiny">10.65.0.0/24</text>
+    <rect x="1210" y="260" width="300" height="72" rx="18" class="b"/><text x="1360" y="290" text-anchor="middle" class="head">Rail 1</text><text x="1360" y="316" text-anchor="middle" class="tiny">10.65.1.0/24</text>
+    <rect x="860" y="365" width="300" height="72" rx="18" class="b"/><text x="1010" y="395" text-anchor="middle" class="head">Rail 2</text><text x="1010" y="421" text-anchor="middle" class="tiny">10.65.2.0/24</text>
+    <rect x="1210" y="365" width="300" height="72" rx="18" class="b"/><text x="1360" y="395" text-anchor="middle" class="head">Rail 3～7</text><text x="1360" y="421" text-anchor="middle" class="tiny">10.65.3.0/24 ... 10.65.7.0/24</text>
+  </g>
+  <rect x="860" y="485" width="650" height="130" rx="22" class="infra"/>
+  <text x="1185" y="519" text-anchor="middle" class="label">4+4 方案仅使用 Plane B 的 RNIC4～7</text>
+  <text x="1185" y="552" text-anchor="middle" class="tiny">10.65.4.0/24 ... 10.65.7.0/24</text>
+  <text x="1185" y="581" text-anchor="middle" class="tiny">完整双平面使用 Rail 0～7 全部地址</text>
+  <text x="1185" y="606" text-anchor="middle" class="tiny">每张 GPU 在 A/B 各有一个独立 IP</text>
+
+  <rect x="120" y="705" width="1360" height="175" rx="28" class="card"/>
+  <rect x="150" y="735" width="360" height="105" rx="22" class="infra"/>
+  <text x="330" y="772" text-anchor="middle" class="head">Loopback /32</text><text x="330" y="803" text-anchor="middle" class="tiny">A: 10.254.0.0/24</text><text x="330" y="828" text-anchor="middle" class="tiny">B: 10.254.1.0/24</text>
+  <rect x="620" y="735" width="360" height="105" rx="22" class="infra"/>
+  <text x="800" y="772" text-anchor="middle" class="head">Leaf-Spine /31</text><text x="800" y="803" text-anchor="middle" class="tiny">A: 10.252.0.0/20</text><text x="800" y="828" text-anchor="middle" class="tiny">B: 10.252.16.0/20</text>
+  <rect x="1090" y="735" width="360" height="105" rx="22" class="infra"/>
+  <text x="1270" y="772" text-anchor="middle" class="head">eBGP + ECMP</text><text x="1270" y="803" text-anchor="middle" class="tiny">每设备独立私有 ASN</text><text x="1270" y="828" text-anchor="middle" class="tiny">服务器不参与 BGP</text>
+  <path d="M510 788H620M980 788H1090" class="lineA"/>
+
+  <text x="800" y="922" text-anchor="middle" class="tiny">计算 NIC 不配置业务默认路由；只安装对应 Rail 聚合网段，避免多 NIC 非对称出流</text>
+</svg>
