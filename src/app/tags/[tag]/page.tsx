@@ -1,4 +1,5 @@
 import { getAllTags, getPostsByTag } from "@/lib/posts";
+import { decodeRouteSegment } from "@/lib/routes";
 import PostCard from "@/components/PostCard";
 
 interface PageProps {
@@ -10,12 +11,14 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: PageProps) {
-  const { tag } = await params;
+  const { tag: routeTag } = await params;
+  const tag = decodeRouteSegment(routeTag);
   return { title: `标签：${tag}` };
 }
 
 export default async function TagPage({ params }: PageProps) {
-  const { tag } = await params;
+  const { tag: routeTag } = await params;
+  const tag = decodeRouteSegment(routeTag);
   const posts = getPostsByTag(tag);
 
   return (

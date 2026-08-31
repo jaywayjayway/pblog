@@ -1,4 +1,5 @@
 import { getAllCategories, getPostsByCategory } from "@/lib/posts";
+import { decodeRouteSegment } from "@/lib/routes";
 import PostCard from "@/components/PostCard";
 
 interface PageProps {
@@ -10,12 +11,14 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: PageProps) {
-  const { name } = await params;
+  const { name: routeName } = await params;
+  const name = decodeRouteSegment(routeName);
   return { title: `分类：${name}` };
 }
 
 export default async function CategoryPage({ params }: PageProps) {
-  const { name } = await params;
+  const { name: routeName } = await params;
+  const name = decodeRouteSegment(routeName);
   const posts = getPostsByCategory(name);
 
   return (
