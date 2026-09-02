@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="980" viewBox="0 0 1600 980" role="img" aria-labelledby="title desc">
+  <title id="title">RoCEv2 跨层可观测模型</title>
+  <desc id="desc">从训练作业和 NCCL 指标，沿 Rank、GPU、RNIC、Rail、交换机端口下钻到队列和优先级，并在统一时间轴上关联。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071525"/><stop offset="1" stop-color="#121a38"/></linearGradient>
+    <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0ea5e9"/><stop offset="1" stop-color="#22d3ee"/></linearGradient>
+    <linearGradient id="purple" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#7c3aed"/><stop offset="1" stop-color="#c084fc"/></linearGradient>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#38bdf8"/></marker>
+    <style>.title{font:700 40px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#f8fafc}.sub{font:400 18px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#94a3b8}.head{font:700 24px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#f8fafc}.label{font:700 17px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#f8fafc}.tiny{font:500 14px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#b6c2d3}.card{fill:#0c2035;stroke:#334155;stroke-width:2}.app{fill:#0b2a3c;stroke:#22d3ee;stroke-width:2}.net{fill:#211b43;stroke:#a78bfa;stroke-width:2}.line{fill:none;stroke:#38bdf8;stroke-width:3;marker-end:url(#a)}</style>
+  </defs>
+  <rect width="1600" height="980" rx="32" fill="url(#bg)"/>
+  <g opacity=".12" stroke="#60a5fa"><path d="M0 150H1600M0 300H1600M0 450H1600M0 600H1600M0 750H1600M0 900H1600M200 0V980M400 0V980M600 0V980M800 0V980M1000 0V980M1200 0V980M1400 0V980"/></g>
+  <text x="72" y="68" class="title">一条时间线：从慢 Step 下钻到交换机队列</text>
+  <text x="72" y="106" class="sub">统一 Job、Rank、GPU、RNIC、Rail、端口、TC、PG 与优先级映射</text>
+
+  <rect x="70" y="145" width="1460" height="120" rx="28" class="card"/>
+  <rect x="95" y="170" width="190" height="44" rx="22" fill="url(#cyan)"/><text x="190" y="199" text-anchor="middle" class="label">统一时间轴</text>
+  <path d="M335 210H1450" stroke="#64748b" stroke-width="4"/>
+  <g fill="#22d3ee"><circle cx="420" cy="210" r="8"/><circle cx="650" cy="210" r="8"/><circle cx="880" cy="210" r="8"/><circle cx="1110" cy="210" r="8"/><circle cx="1340" cy="210" r="8"/></g>
+  <text x="420" y="190" text-anchor="middle" class="tiny">Queue 抬升</text><text x="650" y="240" text-anchor="middle" class="tiny">CE / CNP</text><text x="880" y="190" text-anchor="middle" class="tiny">PFC</text><text x="1110" y="240" text-anchor="middle" class="tiny">Step 变慢</text><text x="1340" y="190" text-anchor="middle" class="tiny">带宽恢复</text>
+
+  <rect x="70" y="305" width="420" height="515" rx="30" class="card"/>
+  <rect x="95" y="330" width="180" height="42" rx="21" fill="url(#cyan)"/><text x="185" y="358" text-anchor="middle" class="label">作业 / NCCL</text>
+  <rect x="110" y="410" width="340" height="92" rx="20" class="app"/><text x="280" y="445" text-anchor="middle" class="head">Job / Step</text><text x="280" y="477" text-anchor="middle" class="tiny">Step Time · P95/P99</text>
+  <rect x="110" y="545" width="340" height="92" rx="20" class="app"/><text x="280" y="580" text-anchor="middle" class="head">Communicator / Rank</text><text x="280" y="612" text-anchor="middle" class="tiny">Collective · algbw · busbw</text>
+  <rect x="110" y="680" width="340" height="92" rx="20" class="app"/><text x="280" y="715" text-anchor="middle" class="head">Node / GPU</text><text x="280" y="747" text-anchor="middle" class="tiny">慢 Rank · GPU-NIC 亲和</text>
+  <path d="M280 502V545M280 637V680" class="line"/>
+
+  <rect x="590" y="305" width="420" height="515" rx="30" class="card"/>
+  <rect x="615" y="330" width="180" height="42" rx="21" fill="url(#purple)"/><text x="705" y="358" text-anchor="middle" class="label">主机 / RNIC</text>
+  <rect x="630" y="410" width="340" height="92" rx="20" class="net"/><text x="800" y="445" text-anchor="middle" class="head">RNIC / Rail</text><text x="800" y="477" text-anchor="middle" class="tiny">吞吐 · PPS · Rail 差异</text>
+  <rect x="630" y="545" width="340" height="92" rx="20" class="net"/><text x="800" y="580" text-anchor="middle" class="head">RoCE CC / PFC</text><text x="800" y="612" text-anchor="middle" class="tiny">CE · CNP · Pause · 重传</text>
+  <rect x="630" y="680" width="340" height="92" rx="20" class="net"/><text x="800" y="715" text-anchor="middle" class="head">PCIe / 物理层</text><text x="800" y="747" text-anchor="middle" class="tiny">NUMA · FEC · CRC · Health</text>
+  <path d="M800 502V545M800 637V680" class="line"/>
+
+  <rect x="1110" y="305" width="420" height="515" rx="30" class="card"/>
+  <rect x="1135" y="330" width="210" height="42" rx="21" fill="url(#purple)"/><text x="1240" y="358" text-anchor="middle" class="label">交换机 / Fabric</text>
+  <rect x="1150" y="410" width="340" height="92" rx="20" class="net"/><text x="1320" y="445" text-anchor="middle" class="head">Port / ECMP</text><text x="1320" y="477" text-anchor="middle" class="tiny">吞吐 · 错误 · 路径倾斜</text>
+  <rect x="1150" y="545" width="340" height="92" rx="20" class="net"/><text x="1320" y="580" text-anchor="middle" class="head">Egress TC / Queue</text><text x="1320" y="612" text-anchor="middle" class="tiny">Occupancy · ECN · Drop</text>
+  <rect x="1150" y="680" width="340" height="92" rx="20" class="net"/><text x="1320" y="715" text-anchor="middle" class="head">Ingress PG / Headroom</text><text x="1320" y="747" text-anchor="middle" class="tiny">Watermark · PFC · Headroom Drop</text>
+  <path d="M1320 502V545M1320 637V680" class="line"/>
+
+  <path d="M490 565H590M1010 565H1110" class="line"/>
+  <rect x="170" y="860" width="1260" height="66" rx="24" fill="#0b1b2e" stroke="#38bdf8" stroke-width="2"/>
+  <text x="800" y="888" text-anchor="middle" class="label">关联键比单个指标更重要</text><text x="800" y="913" text-anchor="middle" class="tiny">Rank → GPU → RNIC → Rail → Leaf Port → TC / PG / Priority</text>
+</svg>

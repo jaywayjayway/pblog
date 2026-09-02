@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1080" viewBox="0 0 1600 1080" role="img" aria-labelledby="title desc">
+  <title id="title">RoCEv2 性能抖动排障决策树</title>
+  <desc id="desc">从 NCCL 性能下降开始，依次判断是否集中于特定 Rail、是否有物理错误、ECN CNP 是否闭环、PFC 是否持续、入口 Headroom 是否耗尽，最后进入分类、端点或缓冲修复。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071525"/><stop offset="1" stop-color="#121a38"/></linearGradient>
+    <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0ea5e9"/><stop offset="1" stop-color="#22d3ee"/></linearGradient>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#64748b"/></marker>
+    <style>.title{font:700 40px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#f8fafc}.sub{font:400 18px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#94a3b8}.head{font:700 22px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#f8fafc}.label{font:700 16px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#f8fafc}.tiny{font:500 14px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#b6c2d3}.start{fill:#0b2a3c;stroke:#22d3ee;stroke-width:3}.ask{fill:#211b43;stroke:#a78bfa;stroke-width:2}.fix{fill:#0c2035;stroke:#38bdf8;stroke-width:2}.danger{fill:#3f1425;stroke:#fb7185;stroke-width:2}.line{fill:none;stroke:#64748b;stroke-width:3;marker-end:url(#a)}</style>
+  </defs>
+  <rect width="1600" height="1080" rx="32" fill="url(#bg)"/>
+  <g opacity=".12" stroke="#60a5fa"><path d="M0 150H1600M0 300H1600M0 450H1600M0 600H1600M0 750H1600M0 900H1600M200 0V1080M400 0V1080M600 0V1080M800 0V1080M1000 0V1080M1200 0V1080M1400 0V1080"/></g>
+  <text x="72" y="68" class="title">RoCEv2 性能抖动：按证据链排查</text><text x="72" y="106" class="sub">先定位故障域，再验证控制环，最后才调整阈值与缓存</text>
+
+  <rect x="590" y="145" width="420" height="82" rx="32" class="start"/><text x="800" y="180" text-anchor="middle" class="head">NCCL 带宽下降 / Step 变慢</text><text x="800" y="207" text-anchor="middle" class="tiny">保留作业、Rank、算法与时间信息</text>
+  <path d="M800 227V275" class="line"/>
+  <path d="M800 265L1010 345L800 425L590 345Z" class="ask"/><text x="800" y="338" text-anchor="middle" class="head">集中在特定 Rail / Rank？</text><text x="800" y="368" text-anchor="middle" class="tiny">比较每 RNIC 吞吐与慢 Rank</text>
+
+  <path d="M590 345H350V475" class="line"/><text x="455" y="330" text-anchor="middle" class="label">否</text>
+  <rect x="115" y="475" width="470" height="105" rx="24" class="fix"/><text x="350" y="514" text-anchor="middle" class="head">并行排查全局 Fabric 与节点内路径</text><text x="350" y="545" text-anchor="middle" class="tiny">共享 Spine / QoS / ECMP + 算法 / GPU-NIC / PCIe</text>
+
+  <path d="M1010 345H1250V475" class="line"/><text x="1140" y="330" text-anchor="middle" class="label">是</text>
+  <path d="M1250 455L1450 530L1250 605L1050 530Z" class="ask"/><text x="1250" y="522" text-anchor="middle" class="head">FEC / CRC / Link 错误？</text><text x="1250" y="550" text-anchor="middle" class="tiny">主机与交换机双向核对</text>
+  <path d="M1450 530H1510V675H1375" class="line"/><text x="1480" y="510" text-anchor="middle" class="label">是</text>
+  <rect x="1175" y="675" width="400" height="95" rx="24" class="danger"/><text x="1375" y="712" text-anchor="middle" class="head">修复物理链路</text><text x="1375" y="742" text-anchor="middle" class="tiny">光模块 / 光纤 / FEC / 端口 / PCIe</text>
+
+  <path d="M1050 530H800V630" class="line"/><text x="940" y="510" text-anchor="middle" class="label">否</text>
+  <path d="M800 615L1015 695L800 775L585 695Z" class="ask"/><text x="800" y="686" text-anchor="middle" class="head">CE → CNP → RP 处理闭环？</text><text x="800" y="716" text-anchor="middle" class="tiny">热点 Queue、NP 与 RP 同时观察</text>
+
+  <path d="M585 695H350V820" class="line"/><text x="470" y="680" text-anchor="middle" class="label">否</text>
+  <rect x="115" y="820" width="470" height="105" rx="24" class="danger"/><text x="350" y="858" text-anchor="middle" class="head">修复分类或端点拥塞控制</text><text x="350" y="889" text-anchor="middle" class="tiny">ECT / DSCP / TC / ECN / CNP / RNIC CC</text>
+
+  <path d="M1015 695H1130V820" class="line"/><text x="1070" y="680" text-anchor="middle" class="label">是</text>
+  <path d="M1130 805L1330 875L1130 945L930 875Z" class="ask"/><text x="1130" y="868" text-anchor="middle" class="head">持续 PFC 或 Headroom 高水位？</text><text x="1130" y="897" text-anchor="middle" class="tiny">看 Pause 时长、方向与 PG 水位</text>
+  <path d="M930 875H765V985" class="line"/><text x="845" y="860" text-anchor="middle" class="label">否</text>
+  <rect x="565" y="985" width="400" height="65" rx="24" class="fix"/><text x="765" y="1025" text-anchor="middle" class="head">回到流量矩阵与 ECMP 倾斜</text>
+  <path d="M1330 875H1460V985H1385" class="line"/><text x="1400" y="860" text-anchor="middle" class="label">是</text>
+  <rect x="1185" y="985" width="400" height="65" rx="24" class="danger"/><text x="1385" y="1025" text-anchor="middle" class="head">复核 ECN 时机、XOFF/XON 与 Headroom</text>
+</svg>

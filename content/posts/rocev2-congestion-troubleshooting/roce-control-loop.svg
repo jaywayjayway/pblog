@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="920" viewBox="0 0 1600 920" role="img" aria-labelledby="title desc">
+  <title id="title">RoCEv2 拥塞反馈与 PFC 保护控制环</title>
+  <desc id="desc">发送 RNIC 经两台交换机向接收 RNIC 发送数据，出口队列标记 CE，接收端返回 CNP，发送端通过 DCQCN 降速；入口缓冲逼近边界时 PFC 逐跳暂停。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071525"/><stop offset="1" stop-color="#121a38"/></linearGradient>
+    <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0ea5e9"/><stop offset="1" stop-color="#22d3ee"/></linearGradient>
+    <linearGradient id="purple" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#7c3aed"/><stop offset="1" stop-color="#c084fc"/></linearGradient>
+    <marker id="ac" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#22d3ee"/></marker>
+    <marker id="ap" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#c084fc"/></marker>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#fb7185"/></marker>
+    <style>.title{font:700 40px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#f8fafc}.sub{font:400 18px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#94a3b8}.head{font:700 24px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#f8fafc}.label{font:700 17px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#f8fafc}.tiny{font:500 14px system-ui,-apple-system,"PingFang SC",sans-serif;fill:#b6c2d3}.card{fill:#0c2035;stroke:#334155;stroke-width:2}.node{fill:#0b2a3c;stroke:#22d3ee;stroke-width:2}.sw{fill:#211b43;stroke:#a78bfa;stroke-width:2}.data{fill:none;stroke:#22d3ee;stroke-width:5;marker-end:url(#ac)}.feedback{fill:none;stroke:#c084fc;stroke-width:4;stroke-dasharray:10 8;marker-end:url(#ap)}.pause{fill:none;stroke:#fb7185;stroke-width:4;stroke-dasharray:5 7;marker-end:url(#ar)}</style>
+  </defs>
+  <rect width="1600" height="920" rx="32" fill="url(#bg)"/>
+  <g opacity=".12" stroke="#60a5fa"><path d="M0 150H1600M0 300H1600M0 450H1600M0 600H1600M0 750H1600M200 0V920M400 0V920M600 0V920M800 0V920M1000 0V920M1200 0V920M1400 0V920"/></g>
+  <text x="72" y="70" class="title">RoCEv2：端到端拥塞控制 + 逐跳缓冲保护</text>
+  <text x="72" y="108" class="sub">CE 告知拥塞 · CNP 反馈源端 · DCQCN 调整速率 · PFC 保护仍在途的数据</text>
+
+  <rect x="70" y="155" width="1460" height="410" rx="30" class="card"/>
+  <rect x="110" y="275" width="245" height="115" rx="24" class="node"/>
+  <text x="232" y="318" text-anchor="middle" class="head">发送 RNIC</text><text x="232" y="350" text-anchor="middle" class="tiny">Reaction Point（RP）</text><text x="232" y="375" text-anchor="middle" class="tiny">DCQCN 降速 / 恢复</text>
+  <rect x="480" y="275" width="245" height="115" rx="24" class="sw"/>
+  <text x="602" y="318" text-anchor="middle" class="head">Leaf A</text><text x="602" y="350" text-anchor="middle" class="tiny">上游 TC / PG</text><text x="602" y="375" text-anchor="middle" class="tiny">反压积累后继续传播 PFC</text>
+  <rect x="850" y="275" width="245" height="115" rx="24" class="sw"/>
+  <text x="972" y="318" text-anchor="middle" class="head">Leaf B</text><text x="972" y="350" text-anchor="middle" class="tiny">热点出口 Queue + 入口 PG</text><text x="972" y="375" text-anchor="middle" class="tiny">标记 CE；PG 积压后生成 PFC</text>
+  <rect x="1220" y="275" width="245" height="115" rx="24" class="node"/>
+  <text x="1342" y="318" text-anchor="middle" class="head">接收 RNIC</text><text x="1342" y="350" text-anchor="middle" class="tiny">Notification Point（NP）</text><text x="1342" y="375" text-anchor="middle" class="tiny">收到 CE 后生成 CNP</text>
+
+  <path d="M355 315H480M725 315H850M1095 315H1220" class="data"/>
+  <text x="787" y="245" text-anchor="middle" class="label">① ECT 数据 → ② 热点处标记 CE → ③ 数据继续到达接收端</text>
+  <path d="M1220 430C1000 515 565 515 290 420" class="feedback"/>
+  <text x="790" y="505" text-anchor="middle" class="label">④ CNP 返回源端　⑤ RP 调整发送速率</text>
+  <path d="M850 405H725" class="pause"/><path d="M480 445H355" class="pause"/>
+  <text x="600" y="465" text-anchor="middle" class="tiny">PFC：相邻设备按优先级暂停</text>
+
+  <rect x="70" y="605" width="455" height="235" rx="28" class="card"/>
+  <rect x="95" y="630" width="170" height="38" rx="19" fill="url(#purple)"/><text x="180" y="655" text-anchor="middle" class="label">ECN / CNP</text>
+  <text x="105" y="710" class="tiny">• 端到端传递拥塞信息</text><text x="105" y="745" class="tiny">• 让发送端主动降低注入速率</text><text x="105" y="780" class="tiny">• CE / CNP 增长不等于故障</text><text x="105" y="815" class="tiny">• 需结合队列与性能判断</text>
+
+  <rect x="572" y="605" width="455" height="235" rx="28" class="card"/>
+  <rect x="597" y="630" width="170" height="38" rx="19" fill="#be123c"/><text x="682" y="655" text-anchor="middle" class="label">PFC</text>
+  <text x="607" y="710" class="tiny">• 逐跳、按优先级保护缓冲</text><text x="607" y="745" class="tiny">• 不能定位最终热点</text><text x="607" y="780" class="tiny">• 可能产生反压和 Pause 扩散</text><text x="607" y="815" class="tiny">• 不应承担稳态流量控制</text>
+
+  <rect x="1074" y="605" width="456" height="235" rx="28" class="card"/>
+  <rect x="1099" y="630" width="180" height="38" rx="19" fill="url(#cyan)"/><text x="1189" y="655" text-anchor="middle" class="label">排障目标</text>
+  <text x="1109" y="710" class="tiny">• ECN 反馈先于持续 PFC 生效</text><text x="1109" y="745" class="tiny">• PFC 只吸收反馈闭环中的突发</text><text x="1109" y="780" class="tiny">• Headroom Drop 保持为零</text><text x="1109" y="815" class="tiny">• 各 Rail 性能与反馈保持一致</text>
+</svg>
