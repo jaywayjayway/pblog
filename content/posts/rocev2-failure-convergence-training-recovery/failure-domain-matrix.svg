@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <linearGradient id="bg5" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#061425"/><stop offset="1" stop-color="#18102e"/></linearGradient>
+    <style>text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;fill:#eef8ff}.title{font-size:42px;font-weight:700}.sub{font-size:21px;fill:#a9bdcd}.head{font-size:21px;font-weight:700}.small{font-size:17px;fill:#c0d0db}.tiny{font-size:15px;fill:#aebfcb}.cell{stroke:#31485e;stroke-width:1.5}</style>
+  </defs>
+  <rect width="1600" height="900" rx="28" fill="url(#bg5)"/>
+  <text x="75" y="78" class="title">故障域逐级扩大：物理冗余不等于软件可恢复</text>
+  <text x="75" y="118" class="sub">影响范围为逻辑示意；实际边界由布线、Rail、Plane 与 communicator 共同决定</text>
+  <g transform="translate(75 170)">
+    <rect width="1450" height="80" rx="16" fill="#15283c" stroke="#3c566d"/>
+    <g class="head" text-anchor="middle"><text x="115" y="49">故障对象</text><text x="370" y="49">网络影响</text><text x="700" y="49">RDMA / NCCL 风险</text><text x="1025" y="49">剩余能力</text><text x="1300" y="49">禁止预设</text></g>
+    <g transform="translate(0 95)">
+      <g>
+        <rect width="1450" height="82" rx="12" fill="#0f2337" class="cell"/><rect width="230" height="82" rx="12" fill="#153d51"/><text x="115" y="49" text-anchor="middle" class="head">单上联</text>
+        <text x="370" y="35" text-anchor="middle" class="small">一个 ECMP 下一跳退出</text><text x="370" y="61" text-anchor="middle" class="tiny">短时丢包 / 重映射</text>
+        <text x="700" y="35" text-anchor="middle" class="small">受影响 QP 重传或失败</text><text x="700" y="61" text-anchor="middle" class="tiny">Collective 等待慢 Rank</text>
+        <text x="1025" y="49" text-anchor="middle" class="small">同 Rail 其他 Spine</text><text x="1300" y="49" text-anchor="middle" class="small" fill="#ff9ab8">必然无感</text>
+      </g>
+      <g transform="translate(0 92)">
+        <rect width="1450" height="82" rx="12" fill="#102137" class="cell"/><rect width="230" height="82" rx="12" fill="#283057"/><text x="115" y="49" text-anchor="middle" class="head">单 Spine</text>
+        <text x="370" y="35" text-anchor="middle" class="small">多个 Leaf 同时减容</text><text x="370" y="61" text-anchor="middle" class="tiny">流量大范围迁移</text>
+        <text x="700" y="49" text-anchor="middle" class="small">多个连接同时受影响</text><text x="1025" y="49" text-anchor="middle" class="small">其余 Spine</text><text x="1300" y="49" text-anchor="middle" class="small" fill="#ff9ab8">只影响一个流</text>
+      </g>
+      <g transform="translate(0 184)">
+        <rect width="1450" height="82" rx="12" fill="#0f2337" class="cell"/><rect width="230" height="82" rx="12" fill="#17443f"/><text x="115" y="49" text-anchor="middle" class="head">单 RNIC</text>
+        <text x="370" y="49" text-anchor="middle" class="small">服务器一条接入消失</text><text x="700" y="35" text-anchor="middle" class="small">绑定 QP / HCA 失效</text><text x="700" y="61" text-anchor="middle" class="tiny">连接未必自动迁移</text>
+        <text x="1025" y="49" text-anchor="middle" class="small">节点其他 HCA</text><text x="1300" y="49" text-anchor="middle" class="small" fill="#ff9ab8">自动换 NIC</text>
+      </g>
+      <g transform="translate(0 276)">
+        <rect width="1450" height="82" rx="12" fill="#102137" class="cell"/><rect width="230" height="82" rx="12" fill="#44314d"/><text x="115" y="49" text-anchor="middle" class="head">单 Leaf</text>
+        <text x="370" y="35" text-anchor="middle" class="small">一组服务器 / Rail 接入</text><text x="370" y="61" text-anchor="middle" class="tiny">取决于是否双归属</text>
+        <text x="700" y="49" text-anchor="middle" class="small">多个 Rank 同时失联</text><text x="1025" y="49" text-anchor="middle" class="small">依赖接入设计</text><text x="1300" y="49" text-anchor="middle" class="small" fill="#ff9ab8">等同单链路</text>
+      </g>
+      <g transform="translate(0 368)">
+        <rect width="1450" height="82" rx="12" fill="#0f2337" class="cell"/><rect width="230" height="82" rx="12" fill="#492943"/><text x="115" y="49" text-anchor="middle" class="head">单 Rail</text>
+        <text x="370" y="49" text-anchor="middle" class="small">一组端到端路径不可用</text><text x="700" y="49" text-anchor="middle" class="small">部分通信图失效</text><text x="1025" y="49" text-anchor="middle" class="small">其他 Rail</text><text x="1300" y="49" text-anchor="middle" class="small" fill="#ff9ab8">固定比例降速</text>
+      </g>
+      <g transform="translate(0 460)">
+        <rect width="1450" height="82" rx="12" fill="#102137" class="cell"/><rect width="230" height="82" rx="12" fill="#50233e"/><text x="115" y="49" text-anchor="middle" class="head">整 Plane</text>
+        <text x="370" y="49" text-anchor="middle" class="small">4 条 Rail 同时不可用</text><text x="700" y="35" text-anchor="middle" class="small">连接可能需要重建</text><text x="700" y="61" text-anchor="middle" class="tiny">worker group 可能重启</text>
+        <text x="1025" y="49" text-anchor="middle" class="small">另一 Plane 4 条 Rail</text><text x="1300" y="49" text-anchor="middle" class="small" fill="#ff9ab8">训练必然续跑</text>
+      </g>
+    </g>
+  </g>
+  <text x="800" y="850" text-anchor="middle" class="sub">每扩大一级故障域，都必须重新验证路径、容量、连接状态和业务恢复</text>
+</svg>

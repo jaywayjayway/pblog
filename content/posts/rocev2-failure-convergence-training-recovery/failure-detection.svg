@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071426"/><stop offset="1" stop-color="#17102e"/></linearGradient>
+    <marker id="a2" markerWidth="12" markerHeight="12" refX="10" refY="4" orient="auto"><path d="M0 0L10 4 0 8Z" fill="#55dce9"/></marker>
+    <style>text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;fill:#eaf6ff}.title{font-size:42px;font-weight:700}.sub{font-size:21px;fill:#a9bdcd}.head{font-size:28px;font-weight:700}.label{font-size:22px;font-weight:650}.small{font-size:18px;fill:#b8c9d8}.line{stroke:#55dce9;stroke-width:5;fill:none;marker-end:url(#a2)}.dash{stroke:#a882ff;stroke-width:5;fill:none;stroke-dasharray:14 10;marker-end:url(#a2)}</style>
+  </defs>
+  <rect width="1600" height="900" rx="28" fill="url(#bg2)"/>
+  <text x="80" y="80" class="title">故障检测：接口 Down 与 BFD 解决不同问题</text>
+  <text x="80" y="120" class="sub">同样表现为“业务不通”，检测入口和计时起点可能完全不同</text>
+  <g transform="translate(80 175)">
+    <rect width="690" height="610" rx="25" fill="#0c1e32" stroke="#28455e" stroke-width="2"/>
+    <text x="36" y="55" class="head" fill="#55dce9">A. 硬故障</text><text x="36" y="88" class="sub">拔纤 / 模块掉电 / admin down</text>
+    <g transform="translate(55 145)">
+      <rect width="210" height="84" rx="16" fill="#123c55" stroke="#55dce9" stroke-width="2"/><text x="105" y="52" text-anchor="middle" class="label">PHY / MAC</text>
+      <rect y="135" width="210" height="84" rx="16" fill="#18304a" stroke="#55dce9"/><text x="105" y="187" text-anchor="middle" class="label">Interface Down</text>
+      <rect y="270" width="210" height="84" rx="16" fill="#30265d" stroke="#a882ff"/><text x="105" y="322" text-anchor="middle" class="label">BGP 邻接失效</text>
+      <rect y="405" width="210" height="84" rx="16" fill="#173d42" stroke="#55dca6"/><text x="105" y="457" text-anchor="middle" class="label">FIB / ECMP 更新</text>
+      <path d="M105 84V135M105 219V270M105 354V405" class="line"/>
+    </g>
+    <g transform="translate(325 175)">
+      <text class="label">检测信号</text><text y="38" class="small">LOS、oper-state、端口事件</text>
+      <text y="110" class="label">关键判断</text><text y="148" class="small">不是 BFD 首先发现</text>
+      <text y="220" class="label">验证重点</text><text y="258" class="small">接口事件 → FIB 生效延迟</text>
+      <text y="330" class="label">常见误区</text><text y="368" class="small">只看到 BGP Down 就停止计时</text>
+    </g>
+  </g>
+  <g transform="translate(830 175)">
+    <rect width="690" height="610" rx="25" fill="#0c1e32" stroke="#49366d" stroke-width="2"/>
+    <text x="36" y="55" class="head" fill="#b497ff">B. 静默黑洞</text><text x="36" y="88" class="sub">接口仍 Up / 转发单向或完全中断</text>
+    <g transform="translate(55 145)">
+      <rect width="210" height="84" rx="16" fill="#123c55" stroke="#55dce9" stroke-width="2"/><text x="105" y="52" text-anchor="middle" class="label">Interface Up</text>
+      <rect y="135" width="210" height="84" rx="16" fill="#4a234b" stroke="#ff6c9d"/><text x="105" y="187" text-anchor="middle" class="label">业务报文黑洞</text>
+      <rect y="270" width="210" height="84" rx="16" fill="#30265d" stroke="#a882ff"/><text x="105" y="322" text-anchor="middle" class="label">BFD 检测失败</text>
+      <rect y="405" width="210" height="84" rx="16" fill="#173d42" stroke="#55dca6"/><text x="105" y="457" text-anchor="middle" class="label">通知 BGP 撤路</text>
+      <path d="M105 84V135M105 219V270M105 354V405" class="dash"/>
+    </g>
+    <g transform="translate(325 175)">
+      <text class="label">检测信号</text><text y="38" class="small">BFD 报文连续缺失</text>
+      <text y="110" class="label">关键判断</text><text y="148" class="small">探测必须覆盖业务故障路径</text>
+      <text y="220" class="label">验证重点</text><text y="258" class="small">协商间隔、倍数、设备调度</text>
+      <text y="330" class="label">常见误区</text><text y="368" class="small">用 shutdown 冒充黑洞实验</text>
+    </g>
+  </g>
+  <text x="800" y="840" text-anchor="middle" class="sub">BFD 检测双向转发路径；固定“毫秒级恢复”必须由实机与负载验证</text>
+</svg>

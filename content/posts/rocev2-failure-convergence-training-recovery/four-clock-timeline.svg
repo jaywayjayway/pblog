@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <linearGradient id="bg3" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#061525"/><stop offset="1" stop-color="#17112f"/></linearGradient>
+    <marker id="ar3" markerWidth="12" markerHeight="12" refX="10" refY="4" orient="auto"><path d="M0 0L10 4 0 8Z" fill="#6fe7ee"/></marker>
+    <style>text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;fill:#edf8ff}.title{font-size:42px;font-weight:700}.sub{font-size:21px;fill:#a9bdcd}.head{font-size:25px;font-weight:700}.small{font-size:18px;fill:#c2d1dc}.axis{stroke:#4b6277;stroke-width:3}.guide{stroke:#31465a;stroke-width:2;stroke-dasharray:8 8}.arrow{stroke:#6fe7ee;stroke-width:4;fill:none;marker-end:url(#ar3)}</style>
+  </defs>
+  <rect width="1600" height="900" rx="28" fill="url(#bg3)"/>
+  <text x="75" y="78" class="title">四个恢复时钟：不要只报一个“收敛时间”</text>
+  <text x="75" y="118" class="sub">各阶段可能重叠；长度仅为逻辑示意，不能当作目标时延</text>
+  <line x1="270" y1="735" x2="1490" y2="735" class="axis" marker-end="url(#ar3)"/>
+  <g class="small" text-anchor="middle"><text x="310" y="772">T0 故障</text><text x="585" y="772">路径失效</text><text x="870" y="772">网络可达</text><text x="1145" y="772">通信结果</text><text x="1420" y="772">有效 Step</text></g>
+  <g class="guide"><line x1="310" y1="185" x2="310" y2="735"/><line x1="585" y1="185" x2="585" y2="735"/><line x1="870" y1="185" x2="870" y2="735"/><line x1="1145" y1="185" x2="1145" y2="735"/><line x1="1420" y1="185" x2="1420" y2="735"/></g>
+  <g transform="translate(65 180)">
+    <text x="0" y="54" class="head" fill="#63dce8">1 故障检测</text>
+    <rect x="245" y="10" width="275" height="76" rx="18" fill="#123d54" stroke="#63dce8" stroke-width="2"/>
+    <text x="382" y="42" text-anchor="middle" class="small">LOS / Interface / BFD</text><text x="382" y="68" text-anchor="middle" class="small">确认下一跳失效</text>
+  </g>
+  <g transform="translate(65 310)">
+    <text x="0" y="54" class="head" fill="#a98cff">2 RIB / FIB</text>
+    <rect x="520" y="10" width="285" height="76" rx="18" fill="#31245d" stroke="#a98cff" stroke-width="2"/>
+    <text x="662" y="42" text-anchor="middle" class="small">BGP 撤路 / 选路</text><text x="662" y="68" text-anchor="middle" class="small">ASIC ECMP 成员更新</text>
+  </g>
+  <g transform="translate(65 440)">
+    <text x="0" y="54" class="head" fill="#5ce0ad">3 RDMA 传输</text>
+    <rect x="640" y="10" width="440" height="76" rx="18" fill="#17443f" stroke="#5ce0ad" stroke-width="2"/>
+    <text x="860" y="42" text-anchor="middle" class="small">在途包丢失 / RC 重传 / QP 错误</text><text x="860" y="68" text-anchor="middle" class="small">结果：继续完成，或重试耗尽</text>
+  </g>
+  <g transform="translate(65 570)">
+    <text x="0" y="54" class="head" fill="#ff88ad">4 训练业务</text>
+    <rect x="805" y="10" width="550" height="76" rx="18" fill="#49233f" stroke="#ff88ad" stroke-width="2"/>
+    <text x="1080" y="42" text-anchor="middle" class="small">Collective 继续 / communicator abort / workers 重启</text><text x="1080" y="68" text-anchor="middle" class="small">从最近有效 Checkpoint 重新产生训练进度</text>
+  </g>
+  <rect x="75" y="810" width="1450" height="52" rx="14" fill="#101f32" stroke="#30485f"/>
+  <text x="800" y="844" text-anchor="middle" class="sub">网络 RTO ≠ RDMA RTO ≠ 训练 RTO；业务 RPO 由 Checkpoint 决定</text>
+</svg>

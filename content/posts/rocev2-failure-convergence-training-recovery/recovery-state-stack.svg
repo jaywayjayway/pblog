@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <linearGradient id="bg4" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071425"/><stop offset="1" stop-color="#181130"/></linearGradient>
+    <marker id="ar4" markerWidth="12" markerHeight="12" refX="10" refY="4" orient="auto"><path d="M0 0L10 4 0 8Z" fill="#67dfea"/></marker>
+    <style>text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;fill:#eef8ff}.title{font-size:42px;font-weight:700}.sub{font-size:21px;fill:#a9bdcd}.head{font-size:25px;font-weight:700}.label{font-size:20px;font-weight:650}.small{font-size:17px;fill:#bfd0dc}.flow{stroke:#67dfea;stroke-width:4;fill:none;marker-end:url(#ar4)}.err{stroke:#ff739f;stroke-width:4;fill:none;stroke-dasharray:12 8;marker-end:url(#ar4)}</style>
+  </defs>
+  <rect width="1600" height="900" rx="28" fill="url(#bg4)"/>
+  <text x="75" y="78" class="title">网络恢复只是起点：状态不会自动向上“变绿”</text>
+  <text x="75" y="118" class="sub">每一层都保留自己的状态、超时与失败语义</text>
+  <g transform="translate(120 180)">
+    <g>
+      <rect x="0" y="0" width="330" height="115" rx="20" fill="#183e51" stroke="#63dce8" stroke-width="2"/>
+      <text x="165" y="42" text-anchor="middle" class="head">BGP / FIB / ECMP</text><text x="165" y="76" text-anchor="middle" class="small">失效下一跳删除，新包可绕行</text>
+      <rect x="0" y="165" width="330" height="115" rx="20" fill="#17443f" stroke="#57d9a5" stroke-width="2"/>
+      <text x="165" y="207" text-anchor="middle" class="head">RoCE RC / QP</text><text x="165" y="241" text-anchor="middle" class="small">重传完成，或进入错误状态</text>
+      <rect x="0" y="330" width="330" height="115" rx="20" fill="#33265d" stroke="#a98cff" stroke-width="2"/>
+      <text x="165" y="372" text-anchor="middle" class="head">NCCL Communicator</text><text x="165" y="406" text-anchor="middle" class="small">Collective 完成，或 async error</text>
+      <rect x="0" y="495" width="330" height="115" rx="20" fill="#49243f" stroke="#ff82a9" stroke-width="2"/>
+      <text x="165" y="537" text-anchor="middle" class="head">DDP / Worker Group</text><text x="165" y="571" text-anchor="middle" class="small">继续 Step，或全部 worker 重启</text>
+      <path d="M165 115V165M165 280V330M165 445V495" class="flow"/>
+    </g>
+    <g transform="translate(450 0)">
+      <rect width="900" height="610" rx="24" fill="#0d1d31" stroke="#2c4358"/>
+      <text x="38" y="52" class="head">同一故障的三条结果路径</text>
+      <path d="M55 115H835" stroke="#29445a" stroke-width="2"/>
+      <circle cx="80" cy="175" r="18" fill="#57d9a5"/><text x="120" y="182" class="label">路径 A：短时恢复</text>
+      <text x="120" y="220" class="small">FIB 更新 → RC 重传成功 → Collective 延迟尖峰 → 下一个 Step</text>
+      <path d="M120 250H790" class="flow"/>
+      <circle cx="80" cy="325" r="18" fill="#ffca68"/><text x="120" y="332" class="label">路径 B：通信失败</text>
+      <text x="120" y="370" class="small">QP/CQ 错误 → NCCL async error → communicator abort → 进程退出</text>
+      <path d="M120 400H790" class="err"/>
+      <circle cx="80" cy="475" r="18" fill="#a98cff"/><text x="120" y="482" class="label">路径 C：业务恢复</text>
+      <text x="120" y="520" class="small">Elastic 重启 worker group → 重建 process group → 加载 Checkpoint</text>
+      <path d="M120 550H790" class="flow"/>
+    </g>
+  </g>
+  <text x="800" y="840" text-anchor="middle" class="sub">错误 communicator 不能因为网络重新可达就继续复用；重启也不等于无进度损失</text>
+</svg>

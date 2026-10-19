@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <linearGradient id="bg6" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#061525"/><stop offset="1" stop-color="#17112f"/></linearGradient>
+    <marker id="ar6" markerWidth="12" markerHeight="12" refX="10" refY="4" orient="auto"><path d="M0 0L10 4 0 8Z" fill="#61dfe9"/></marker>
+    <style>text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;fill:#eef8ff}.title{font-size:42px;font-weight:700}.sub{font-size:21px;fill:#a9bdcd}.head{font-size:23px;font-weight:700}.small{font-size:17px;fill:#c1d1dc}.flow{stroke:#61dfe9;stroke-width:4;fill:none;marker-end:url(#ar6)}.stop{stroke:#ff749f;stroke-width:4;fill:none;marker-end:url(#ar6)}</style>
+  </defs>
+  <rect width="1600" height="900" rx="28" fill="url(#bg6)"/>
+  <text x="75" y="78" class="title">分层故障演练：一次只扩大一个故障域</text>
+  <text x="75" y="118" class="sub">先证明观测、回滚与 Checkpoint 有效，再提高注入风险</text>
+  <g transform="translate(70 190)">
+    <g>
+      <rect x="0" y="0" width="245" height="125" rx="20" fill="#163b51" stroke="#60dce7" stroke-width="2"/>
+      <text x="122" y="42" text-anchor="middle" class="head">0 建立基线</text><text x="122" y="76" text-anchor="middle" class="small">NCCL / ECMP / RNIC</text><text x="122" y="101" text-anchor="middle" class="small">Checkpoint 恢复验证</text>
+      <rect x="300" y="0" width="245" height="125" rx="20" fill="#1d3851" stroke="#60dce7" stroke-width="2"/>
+      <text x="422" y="42" text-anchor="middle" class="head">1 单上联硬故障</text><text x="422" y="76" text-anchor="middle" class="small">接口 Down → FIB</text><text x="422" y="101" text-anchor="middle" class="small">验证切出与回切</text>
+      <rect x="600" y="0" width="245" height="125" rx="20" fill="#30285b" stroke="#a78bff" stroke-width="2"/>
+      <text x="722" y="42" text-anchor="middle" class="head">2 静默黑洞</text><text x="722" y="76" text-anchor="middle" class="small">Interface Up</text><text x="722" y="101" text-anchor="middle" class="small">验证 BFD 触发</text>
+      <rect x="900" y="0" width="245" height="125" rx="20" fill="#3e294f" stroke="#c18aff" stroke-width="2"/>
+      <text x="1022" y="42" text-anchor="middle" class="head">3 单 Spine</text><text x="1022" y="76" text-anchor="middle" class="small">多 Leaf 同时减容</text><text x="1022" y="101" text-anchor="middle" class="small">观察大范围迁移</text>
+      <rect x="1200" y="0" width="245" height="125" rx="20" fill="#4a2544" stroke="#ff83aa" stroke-width="2"/>
+      <text x="1322" y="42" text-anchor="middle" class="head">4 扩大故障域</text><text x="1322" y="76" text-anchor="middle" class="small">RNIC / Rail / Plane</text><text x="1322" y="101" text-anchor="middle" class="small">仅限隔离环境</text>
+      <path d="M245 62H300M545 62H600M845 62H900M1145 62H1200" class="flow"/>
+    </g>
+    <g transform="translate(0 205)">
+      <rect x="0" y="0" width="950" height="345" rx="24" fill="#0d2034" stroke="#314b62"/>
+      <text x="34" y="48" class="head">每一阶段都必须回答</text>
+      <g class="small">
+        <circle cx="55" cy="98" r="8" fill="#61dfe9"/><text x="78" y="104">故障由谁发现：PHY、接口、BFD 还是上层超时？</text>
+        <circle cx="55" cy="148" r="8" fill="#61dfe9"/><text x="78" y="154">RIB、FIB、ECMP 与探测流分别何时恢复？</text>
+        <circle cx="55" cy="198" r="8" fill="#61dfe9"/><text x="78" y="204">受影响 QP 是重传继续，还是产生 CQ/QP 错误？</text>
+        <circle cx="55" cy="248" r="8" fill="#61dfe9"/><text x="78" y="254">Collective 最大停顿、慢 Rank 和训练结果是什么？</text>
+        <circle cx="55" cy="298" r="8" fill="#61dfe9"/><text x="78" y="304">链路回切后是否 flap、过载或出现新的哈希倾斜？</text>
+      </g>
+      <rect x="1000" y="0" width="445" height="345" rx="24" fill="#311c31" stroke="#ff749f" stroke-width="2"/>
+      <text x="1035" y="48" class="head" fill="#ff96b6">立即停止并回滚</text>
+      <g class="small"><text x="1035" y="100">• 数据正确性异常</text><text x="1035" y="146">• Headroom Drop / PFC 扩散</text><text x="1035" y="192">• 非目标故障域同时异常</text><text x="1035" y="238">• 管理、时钟或观测失效</text><text x="1035" y="284">• 作业无法按预案恢复</text></g>
+      <path d="M950 172H1000" class="stop"/>
+    </g>
+  </g>
+  <rect x="220" y="800" width="1160" height="55" rx="16" fill="#12253a" stroke="#3b556c"/>
+  <text x="800" y="836" text-anchor="middle" class="sub">通过条件应同时覆盖：路径、容量、RDMA、Collective、训练正确性与回切</text>
+</svg>
