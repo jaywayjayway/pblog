@@ -7,7 +7,9 @@ interface PageProps {
 }
 
 export function generateStaticParams() {
-  return getAllCategories().map(({ category }) => ({ name: category }));
+  return getAllCategories().map(({ category }) => ({
+    name: encodeURIComponent(category),
+  }));
 }
 
 export async function generateMetadata({ params }: PageProps) {
