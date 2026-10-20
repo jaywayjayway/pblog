@@ -1,6 +1,6 @@
 ---
 title: "断一条链路会发生什么：RoCEv2 网络故障收敛与训练恢复"
-date: "2026-09-10"
+date: "2026-10-19"
 category: "组网"
 tags: ["RoCEv2", "BGP", "BFD", "ECMP", "NCCL", "故障恢复"]
 description: "以千卡 4+4 双平面 RoCEv2 Fabric 的单条 Leaf-Spine 上联故障为案例，拆解故障检测、BGP/FIB 收敛、RoCE RC 重传、NCCL 异常与训练恢复的完整时间线。"
